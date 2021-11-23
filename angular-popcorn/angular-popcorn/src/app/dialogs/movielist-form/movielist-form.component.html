@@ -1,0 +1,33 @@
+<h2>Añadir {{movie?.title}} a una lista de reproducción</h2>
+
+<h3>Añadir a una lista de reproducción existente</h3>
+<mat-form-field appearance="fill">
+    <mat-label>Listas existentes</mat-label>
+    <mat-select name="lista" [(ngModel)]="listaId">
+      <mat-option *ngFor="let lista of listaDeListas" [value]="lista.id">
+        {{lista.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" (click)="addMovielist()">Añadir a la lista</button>
+
+  <hr>
+  <h3>O crear una nueva lista de peliculas</h3>
+  <form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input [(ngModel)]="nombre" name="nombre" matInput placeholder="Nombre de la lista">
+    </mat-form-field>
+    <br>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Descripción</mat-label>
+        <input [(ngModel)]="desc" name="desc" matInput placeholder="Descripcion de la lista">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Idioma</mat-label>
+        <input [(ngModel)]="idioma" name="idioma" matInput placeholder="Idioma de la lista">
+        </mat-form-field>
+        <br>
+    <button mat-raised-button color="primary" (click)="createMovielist()">Crear lista</button>

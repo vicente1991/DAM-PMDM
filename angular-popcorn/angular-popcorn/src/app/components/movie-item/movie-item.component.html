@@ -1,0 +1,30 @@
+<div fxLayout="column" style="width: 200px;">
+        <mat-card>
+        
+            <div class="movie-image"> 
+            <img [src]="getMovieImageUrl(movieInput)" width="100%" />
+            </div>
+            <h3 class="movie-title">{{movieInput.title}}</h3>
+            <div class="movie-rate"><circle-progress titleColor="White"
+                [percent]="(movieInput.vote_average) * 10" 
+                [radius]="30"
+                [outerStrokeWidth]="5"
+                [innerStrokeWidth]="3"
+                [outerStrokeColor]="'green'"
+                [animation]="true"
+                [animationDuration]="300"
+                ></circle-progress></div>
+            
+            <div fxLayoutAlign="end end">
+    
+                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="addFavoriteList()">
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="dialogForm()">
+                    <mat-icon>playlist_add</mat-icon>
+                </button>
+                <button><a href="http://localhost:4200/list-favorite"><mat-icon>event_seat</mat-icon></a></button>
+
+            </div>
+        </mat-card>
+    </div>
