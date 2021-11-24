@@ -1,0 +1,29 @@
+<div fxLayout="column">
+    <mat-card>
+        <mat-card-content>
+            <div class="movie-rate"><circle-progress titleColor="White"
+                [percent]="(movieInput.vote_average) * 10"
+                [radius]="50"
+                [outerStrokeWidth]="5"
+                [innerStrokeWidth]="3"
+                [outerStrokeColor]="'#F00000'"
+                [animation]="true"
+                [animationDuration]="300"
+                ></circle-progress></div>
+            <div class="movie-image"> 
+            <img [src]="getMovieImageUrl(movieInput)" width="100%" />
+            </div>
+            <h3 class="ellipsis">{{movieInput.title}}</h3>
+            
+            <div fxLayoutAlign="end end">
+    
+                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="addFavorite()">
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon" (click)="dialogForm()">
+                    <mat-icon>playlist_add</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    </div>
