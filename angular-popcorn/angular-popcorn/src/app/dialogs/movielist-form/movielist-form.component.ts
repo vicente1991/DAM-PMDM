@@ -1,4 +1,5 @@
 import { Component,Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Favorite, Lista } from 'src/app/models/interfaces/lists.inteface';
 import { Movie } from 'src/app/models/interfaces/movies-popular.interface';
@@ -23,6 +24,10 @@ export class PlaylistFormComponent implements OnInit {
   desc!: string
   nombre!:string
   favorite!: Favorite
+  listForm = new FormGroup({
+    description: new FormControl(),
+    name: new FormControl()
+  });
 
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: movieDetailDialogData, private movieService: MoviesService,

@@ -13,21 +13,16 @@
   <button mat-raised-button color="primary" (click)="addMovielist()">Añadir a la lista</button>
 
   <hr>
-  <h3>O crear una nueva lista de peliculas</h3>
-  <form class="example-form">
+  <h3>Crear una nueva playlist</h3>
+  <form class="example-form" [formGroup]="listForm">
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input [(ngModel)]="nombre" name="nombre" matInput placeholder="Nombre de la lista">
+      <input formControlName='name'  matInput placeholder="Nombre de la lista">
     </mat-form-field>
     <br>
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Descripción</mat-label>
-        <input [(ngModel)]="desc" name="desc" matInput placeholder="Descripcion de la lista">
+        <input formControlName='description'  matInput placeholder="Descripcion de la lista">
       </mat-form-field>
-      <br>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Idioma</mat-label>
-        <input [(ngModel)]="idioma" name="idioma" matInput placeholder="Idioma de la lista">
-        </mat-form-field>
-        <br>
+    
     <button mat-raised-button color="primary" (click)="createMovielist()">Crear lista</button>

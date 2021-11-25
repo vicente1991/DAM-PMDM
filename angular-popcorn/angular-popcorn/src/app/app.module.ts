@@ -15,6 +15,7 @@ import { DialogLoginComponent } from './dialogs/dialog-login/dialog-login.compon
 import { SessionComponent } from './shared/session/session.component';
 import { PlaylistFormComponent } from './dialogs/movielist-form/movielist-form.component';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ListMovieFavoriteComponent } from './components/list-movie-favorite/list-movie-favorite.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ListMovieFavoriteComponent } from './components/list-movie-favorite/lis
     BrowserAnimationsModule,
     MaterialImportsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
     NgCircleProgressModule.forRoot({
