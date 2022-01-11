@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { PlaylistFormComponent } from 'angular-popcorn/src/app/dialogs/movielist-form/movielist-form.component';
 import { DialogLoginComponent } from 'src/app/dialogs/dialog-login/dialog-login.component';
-import { PlaylistFormComponent } from 'src/app/dialogs/movielist-form/movielist-form.component';
 import { Movie } from 'src/app/models/interfaces/movies-popular.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';

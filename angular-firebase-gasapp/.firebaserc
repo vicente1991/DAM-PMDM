@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "gasapp-ea650": {
+      "hosting": {
+        "angular-firebase-gasapp": [
+          "gasapp-ea650"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "gasapp-ea650"
+  }
+}

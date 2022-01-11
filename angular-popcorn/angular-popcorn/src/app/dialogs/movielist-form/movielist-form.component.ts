@@ -1,10 +1,11 @@
 import { Component,Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Favorite, Lista } from 'src/app/models/interfaces/lists.inteface';
+import { Lista } from 'src/app/models/interfaces/lists.inteface';
 import { Movie } from 'src/app/models/interfaces/movies-popular.interface';
 import { AccountService } from 'src/app/services/account.service';
 import { ListService } from 'src/app/services/list.service';
 import { MoviesService } from 'src/app/services/movies.service';
+import { Favorite } from 'src/app/models/interfaces/lists.inteface';
 
 export interface movieDetailDialogData{
   movieId: string

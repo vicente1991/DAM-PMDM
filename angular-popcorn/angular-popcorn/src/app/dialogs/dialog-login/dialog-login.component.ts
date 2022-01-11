@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Movie } from 'src/app/models/interfaces/movies-popular.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';

@@ -13,8 +13,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { DialogLoginComponent } from './dialogs/dialog-login/dialog-login.component';
 import { SessionComponent } from './shared/session/session.component';
-import { PlaylistFormComponent } from './dialogs/movielist-form/movielist-form.component';
 import { FormsModule } from '@angular/forms';
+import { PlaylistFormComponent } from 'angular-popcorn/src/app/dialogs/movielist-form/movielist-form.component';
 
 @NgModule({
   declarations: [
