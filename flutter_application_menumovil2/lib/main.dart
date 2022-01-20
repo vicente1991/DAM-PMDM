@@ -4,7 +4,6 @@ import 'package:flutter_application_menumovil2/models/people_response.dart';
 import 'package:flutter_application_menumovil2/models/planets_response.dart';
 import 'package:http/http.dart' as http;
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -80,20 +79,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: SizedBox(
-                height: 600,
-                child: Center(
-                    child: FutureBuilder<List<People>>(
-                  future: personas,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return _peopleList(snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                )),
-              ),
+        height: 600,
+        child: Center(
+            child: FutureBuilder<List<People>>(
+          future: personas,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _peopleList(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        )),
+      ),
     );
   }
 
@@ -118,7 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _peopleItem(People people) {
     List<String> persona = people.url.split('/');
+    List<String> vehiculo = people.vehicles.toString().split('/');
     String idFoto = persona[5];
+
     return Container(
       width: 230,
       child: Card(
@@ -141,7 +142,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         padding: EdgeInsets.all(10),
-                        child: Text(people.name),
+                        child: Column(children: [
+                          Text(people.name, style: TextStyle(fontSize: 30)),
+                          Text("Fecha Nacimiento:" + people.birthYear),
+                          Text("Color de pelo: " + people.hairColor),
+                         
+                        ]),
                       ),
                     ],
                   ),
@@ -149,6 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
 }
 
 @override
@@ -218,21 +225,34 @@ class _MyHomePageState2 extends State<MyHomePage2> {
         ),
       ),
       body: SizedBox(
-                height: 600,
-                child: Center(
-                    child: FutureBuilder<List<Planets>>(
-                  future: planetas,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return _planetsList(snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                )),
-              ),
+        height: 600,
+        child: Center(
+            child: FutureBuilder<List<Planets>>(
+          future: planetas,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _planetsList(snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
+        )),
+      ),
     );
+  }
+
+  Widget _getPlanetImg(int index, String name) {
+    if (name == 'Tatooine') {
+      return Image.network(
+          'https://static.wikia.nocookie.net/esstarwars/images/b/b0/Tatooine_TPM.png/revision/latest?cb=20131214162357');
+    } else {
+      return Image.network(
+          'https://starwars-visualguide.com/assets/img/planets/' +
+              (index + 1).toString() +
+              '.jpg',
+          width: 100);
+    }
   }
 
   Future<List<Planets>> fetchPlanets() async {
@@ -246,11 +266,11 @@ class _MyHomePageState2 extends State<MyHomePage2> {
 
   Widget _planetsList(List<Planets> planetsList) {
     return ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: planetsList.length,
-        itemBuilder: (context, index) {
-          return _planetItem(planetsList.elementAt(index));
-        },
+      scrollDirection: Axis.vertical,
+      itemCount: planetsList.length,
+      itemBuilder: (context, index) {
+        return _planetItem(planetsList.elementAt(index));
+      },
     );
   }
 
@@ -279,7 +299,10 @@ class _MyHomePageState2 extends State<MyHomePage2> {
                       ),
                       Container(
                         padding: EdgeInsets.all(10),
-                        child: Text(planet.name),
+                        child: Text(
+                          planet.name,
+                          style: TextStyle(fontSize: 30),
+                        ),
                       ),
                     ],
                   ),
