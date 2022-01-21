@@ -121,7 +121,6 @@ class _MyHomePageState extends State<MyHomePage> {
     String idFoto = persona[5];
 
     return Container(
-      width: 230,
       child: Card(
         child: InkWell(
             onTap: () {
@@ -138,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Image(
                         image: NetworkImage(
-                            'https://starwars-visualguide.com/assets/img/characters/${idFoto}.jpg'),
+                            'https://starwars-visualguide.com/assets/img/characters/${idFoto}.jpg'),width: 120,
                       ),
                       Container(
                         padding: EdgeInsets.all(10),
@@ -154,8 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ))),
       ),
     );
-  }
-
+  }      
 }
 
 @override
