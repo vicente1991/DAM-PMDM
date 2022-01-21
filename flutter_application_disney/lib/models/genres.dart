@@ -1,10 +1,10 @@
-class Genres {
-  Genres({
+class GenresModel {
+  GenresModel({
     required this.data,
   });
   late final List<GenresData> data;
   
-  Genres.fromJson(Map<String, dynamic> json){
+  GenresModel.fromJson(Map<String, dynamic> json){
     data = List.from(json['data']).map((e)=>GenresData.fromJson(e)).toList();
   }
 

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_disney/models/genres.dart';
 import 'package:flutter_application_disney/pages/anime_page.dart';
+import 'package:flutter_application_disney/pages/genres_page.dart';
 import 'package:flutter_application_disney/pages/people_page.dart';
 
 
@@ -52,7 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
+        title: const Text('MundoAnime'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

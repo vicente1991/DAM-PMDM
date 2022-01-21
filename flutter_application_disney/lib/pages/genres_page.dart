@@ -52,7 +52,7 @@ class _MyHomePageState2 extends State<Genres> {
 
   @override
   void initState() {
-    items = fetchPlanets();
+    items = fetchGenres();
     super.initState();
   }
 
@@ -65,7 +65,7 @@ class _MyHomePageState2 extends State<Genres> {
             future: items,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return _planetsList(snapshot.data!);
+                return _genresList(snapshot.data!);
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
@@ -80,7 +80,7 @@ class _MyHomePageState2 extends State<Genres> {
 
  
 
-  Widget _getPlanetImg(int index, String name) {
+  Widget _getGenresImg(int index, String name) {
     if (name == 'Tatooine') {
       return Image.network(
           'https://static.wikia.nocookie.net/esstarwars/images/b/b0/Tatooine_TPM.png/revision/latest?cb=20131214162357');
@@ -93,33 +93,32 @@ class _MyHomePageState2 extends State<Genres> {
     }
   }
 
-  Future<List<GenresData>> fetchPlanets() async {
+  Future<List<GenresData>> fetchGenres() async {
     final response = await http.get(Uri.parse('https://api.jikan.moe/v4/genres/anime'));
     if (response.statusCode == 200) {
-      return Genres.fromJson(jsonDecode(response.body)).data;
+      return GenresModel.fromJson(jsonDecode(response.body)).data;
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load genres');
     }
   }
 
-  Widget _planetsList(List<GenresData> planetsList) {
+  Widget _genresList(List<GenresData> genresList) {
     return SizedBox(
-      height: 600,
+      height: 530,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: planetsList.length,
+        itemCount: genresList.length,
         itemBuilder: (context, index) {
-          return _planetItem(planetsList.elementAt(index), index);
+          return _genresItem(genresList.elementAt(index), index);
         },
       ),
     );
   }
 
-  Widget _planetItem(GenresData planet, int index) {
+  Widget _genresItem(GenresData planet, int index) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20.0),
-        width: 150,
         child: Card(
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
@@ -127,8 +126,7 @@ class _MyHomePageState2 extends State<Genres> {
               debugPrint('Card tapped.');
             },
             child: SizedBox(
-              width: 300,
-              height: 150,
+              height: 100,
               child: Column(
                 children: [
                   Text(planet.name)
