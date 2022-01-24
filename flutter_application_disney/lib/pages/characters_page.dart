@@ -1,12 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_disney/models/genres.dart';
+import 'package:flutter_application_disney/models/characters.dart';
 import 'package:http/http.dart' as http;
-
-late Future<List<GenresData>> items;
-
-
-
 
 @override
 Widget build(BuildContext context) {
@@ -24,12 +19,12 @@ Widget build(BuildContext context) {
       // is not restarted.
       primarySwatch: Colors.blue,
     ),
-    home: const Genres(title: 'Flutter Demo Home Page'),
+    home: const Personajes(title: 'Flutter Demo Home Page'),
   );
 }
 
-class Genres extends StatefulWidget {
-  const Genres({Key? key, required this.title}) : super(key: key);
+class Personajes extends StatefulWidget {
+  const Personajes({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -43,16 +38,16 @@ class Genres extends StatefulWidget {
   final String title;
 
   @override
-  State<Genres> createState() => _MyHomePageState2();
+  State<Personajes> createState() => _MyHomePageState2();
 }
 
-class _MyHomePageState2 extends State<Genres> {
-  late Future<List<GenresData>> items;
+class _MyHomePageState2 extends State<Personajes> {
+  late Future<List<CharactersData>> items;
   
 
   @override
   void initState() {
-    items = fetchGenres();
+    items = fetchCharacters();
     super.initState();
   }
 
@@ -61,16 +56,27 @@ class _MyHomePageState2 extends State<Genres> {
     return Scaffold(
       body: Column(
         children: [
-          FutureBuilder<List<GenresData>>(
-            future: items,
+          FutureBuilder<List<CharactersData>>(
+            future: fetchCharacters(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return _genresList(snapshot.data!);
+              /*if (snapshot.hasData) {
+                return _planetsList(snapshot.data!);
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
-              }
+              }*/
+              switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return new Text('loading...');
+          default:
+            if (snapshot.hasError)
+              return new Text('Error: ${snapshot.error}');
+            else {
+              return _charactersList(context, snapshot);
+            }
+        }
 
-              return const Center(child: CircularProgressIndicator());
+             /* return const Center(child: CircularProgressIndicator());*/
             },
           )
         ],
@@ -80,45 +86,39 @@ class _MyHomePageState2 extends State<Genres> {
 
  
 
-  Widget _getGenresImg(int index, String name) {
-    if (name == 'Tatooine') {
-      return Image.network(
-          'https://static.wikia.nocookie.net/esstarwars/images/b/b0/Tatooine_TPM.png/revision/latest?cb=20131214162357');
-    } else {
-      return Image.network(
-          'https://starwars-visualguide.com/assets/img/planets/' +
-              (index + 1).toString() +
-              '.jpg',
-          width: 100);
-    }
+  Widget _getCharactersImg(CharactersData img) {
+    
+      return Image.network(img.images.jpg.imageUrl, fit: BoxFit.cover,);
   }
 
-  Future<List<GenresData>> fetchGenres() async {
-    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/genres/anime'));
+  Future<List<CharactersData>> fetchCharacters() async {
+    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/characters?order_by=mal_id&sort=asc&q=Goku'));
     if (response.statusCode == 200) {
-      return GenresModel.fromJson(jsonDecode(response.body)).data;
+      return CharactersModel.fromJson(jsonDecode(response.body)).data;
     } else {
-      throw Exception('Failed to load genres');
+      throw Exception('Failed to load characters');
     }
   }
 
-  Widget _genresList(List<GenresData> genresList) {
+  Widget _charactersList(BuildContext charactersList, AsyncSnapshot<List<CharactersData>> snapshot) {
+    List<CharactersData>? values = snapshot.data;
     return SizedBox(
-      height: 530,
+      height: 600,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: genresList.length,
+        itemCount: values?.length,
         itemBuilder: (context, index) {
-          return _genresItem(genresList.elementAt(index), index);
+          return _charactersItem(values![index], index);
         },
       ),
     );
   }
 
-  Widget _genresItem(GenresData planet, int index) {
+  Widget _charactersItem(CharactersData character, int index) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20.0),
+        width: MediaQuery.of(context).size.width,
         child: Card(
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
@@ -126,10 +126,12 @@ class _MyHomePageState2 extends State<Genres> {
               debugPrint('Card tapped.');
             },
             child: SizedBox(
-              height: 100,
+              width: 30,
+              height: 500,
               child: Column(
                 children: [
-                  Text(planet.name)
+                  Text(character.name),
+                  _getCharactersImg(character),
                   
                 ],
               ),

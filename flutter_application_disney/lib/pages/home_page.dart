@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_disney/models/genres.dart';
 import 'package:flutter_application_disney/pages/anime_page.dart';
-import 'package:flutter_application_disney/pages/genres_page.dart';
-import 'package:flutter_application_disney/pages/people_page.dart';
+import 'package:flutter_application_disney/pages/mangas_page.dart';
+import 'package:flutter_application_disney/pages/characters_page.dart';
 
 
 void main() => runApp(const Home());
@@ -34,10 +33,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    AnimePage(
+    Animes(title: 'Animes',
     ),
-    Genres(title: 'Genres'),
-    Personajes(
+    Mangas(title: 'Mangas',
+
+    ),
+    Personajes(title: 'Personajes',
       
     ),
     
@@ -53,7 +54,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MundoAnime'),
+        backgroundColor: Colors.orange,
+        title: const Text('BottomNavigationBar Sample'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -61,16 +63,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,),
-            label: 'Personajes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Generos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.tv,),
             label: 'Anime',
+            
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Manga',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.emoji_people_outlined),
+            label: 'Characters',
           ),
         ],
         currentIndex: _selectedIndex,

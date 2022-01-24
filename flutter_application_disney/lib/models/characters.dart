@@ -1,41 +1,16 @@
-class People {
-  People({
-    required this.pagination,
+class CharactersModel {
+  CharactersModel({
     required this.data,
   });
-  late final Pagination pagination;
   late final List<CharactersData> data;
   
-  People.fromJson(Map<String, dynamic> json){
-    pagination = Pagination.fromJson(json['pagination']);
+  CharactersModel.fromJson(Map<String, dynamic> json){
     data = List.from(json['data']).map((e)=>CharactersData.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['pagination'] = pagination.toJson();
     _data['data'] = data.map((e)=>e.toJson()).toList();
-    return _data;
-  }
-}
-
-class Pagination {
-  Pagination({
-    required this.lastVisiblePage,
-    required this.hasNextPage,
-  });
-  late final int lastVisiblePage;
-  late final bool hasNextPage;
-  
-  Pagination.fromJson(Map<String, dynamic> json){
-    lastVisiblePage = json['last_visible_page'];
-    hasNextPage = json['has_next_page'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['last_visible_page'] = lastVisiblePage;
-    _data['has_next_page'] = hasNextPage;
     return _data;
   }
 }
@@ -46,26 +21,23 @@ class CharactersData {
     required this.url,
     required this.images,
     required this.name,
-    required this.nicknames,
     required this.favorites,
-    required this.about,
+  
   });
   late final int malId;
   late final String url;
   late final Images images;
   late final String name;
-  late final List<String> nicknames;
   late final int favorites;
-  late final String about;
+ 
   
   CharactersData.fromJson(Map<String, dynamic> json){
     malId = json['mal_id'];
     url = json['url'];
     images = Images.fromJson(json['images']);
     name = json['name'];
-    nicknames = List.castFrom<dynamic, String>(json['nicknames']);
     favorites = json['favorites'];
-    about = json['about'];
+   
   }
 
   Map<String, dynamic> toJson() {
@@ -74,9 +46,8 @@ class CharactersData {
     _data['url'] = url;
     _data['images'] = images.toJson();
     _data['name'] = name;
-    _data['nicknames'] = nicknames;
     _data['favorites'] = favorites;
-    _data['about'] = about;
+ 
     return _data;
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'package:flutter_application_disney/models/anime.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter_application_disney/models/manga.dart';
+import 'package:http/http.dart' as http;
+
+late Future<List<MangasData>> items;
 
 
 @override
@@ -20,12 +22,12 @@ Widget build(BuildContext context) {
       // is not restarted.
       primarySwatch: Colors.blue,
     ),
-    home: const Animes(title: 'Flutter Demo Home Page'),
+    home: const Mangas(title: 'Flutter Demo Home Page'),
   );
 }
 
-class Animes extends StatefulWidget {
-  const Animes({Key? key, required this.title}) : super(key: key);
+class Mangas extends StatefulWidget {
+  const Mangas({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -39,16 +41,16 @@ class Animes extends StatefulWidget {
   final String title;
 
   @override
-  State<Animes> createState() => _MyHomePageState2();
+  State<Mangas> createState() => _MyHomePageState2();
 }
 
-class _MyHomePageState2 extends State<Animes> {
-  late Future<List<AnimesData>> items;
+class _MyHomePageState2 extends State<Mangas> {
+  late Future<List<MangasData>> items;
   
 
   @override
   void initState() {
-    items = fetchAnimes();
+    items = fetchMangas();
     super.initState();
   }
 
@@ -57,21 +59,16 @@ class _MyHomePageState2 extends State<Animes> {
     return Scaffold(
       body: Column(
         children: [
-          FutureBuilder<List<AnimesData>>(
-            future: fetchAnimes(),
+          FutureBuilder<List<MangasData>>(
+            future: items,
             builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return new Text('loading...');
-          default:
-            if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
-            else {
-              return _animesList(context, snapshot);
-            }
-        }
-             /* return const Center(child: CircularProgressIndicator());*/
+              if (snapshot.hasData) {
+                return _mangasList(snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              return const Center(child: CircularProgressIndicator());
             },
           )
         ],
@@ -81,39 +78,38 @@ class _MyHomePageState2 extends State<Animes> {
 
  
 
-  Widget _getAnimesImg(AnimesData img) {
+  Widget _getMangasImg(MangasData img) {
     
       return Image.network(img.images.jpg.imageUrl, fit: BoxFit.cover,);
   }
 
-  Future<List<AnimesData>> fetchAnimes() async {
-    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/anime?q=Dragon Ball'));
+  Future<List<MangasData>> fetchMangas() async {
+    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/manga?order_by=mal_id&score=5&type=manga&q=Dragon Ball '));
     if (response.statusCode == 200) {
-      return AnimesModel.fromJson(jsonDecode(response.body)).data;
+      return MangasModel.fromJson(jsonDecode(response.body)).data;
     } else {
-      throw Exception('Failed to load anime');
+      throw Exception('Failed to load mangas');
     }
   }
 
-  Widget _animesList(BuildContext animesList, AsyncSnapshot<List<AnimesData>> snapshot) {
-    List<AnimesData>? values = snapshot.data;
+  Widget _mangasList(List<MangasData> mangasList) {
     return SizedBox(
       height: 600,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: values?.length,
+        itemCount: mangasList.length,
         itemBuilder: (context, index) {
-          return _animesItem(values![index], index);
+          return _mangaItem(mangasList.elementAt(index), index);
         },
       ),
     );
   }
 
-  Widget _animesItem(AnimesData anime, int index) {
+  Widget _mangaItem(MangasData manga, int index) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20.0),
-        width: MediaQuery.of(context).size.width,
+        width: 150,
         child: Card(
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
@@ -122,12 +118,11 @@ class _MyHomePageState2 extends State<Animes> {
             },
             child: SizedBox(
               width: 30,
-              height: 500,
+              height: 400,
               child: Column(
                 children: [
-                  Text(anime.title),
-                  _getAnimesImg(anime),
-                  Text(anime.status)
+                  Text(manga.title),
+                  _getMangasImg(manga)
                 ],
               ),
             ),
