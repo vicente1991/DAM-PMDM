@@ -92,7 +92,7 @@ class _MyHomePageState2 extends State<Personajes> {
   }
 
   Future<List<CharactersData>> fetchCharacters() async {
-    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/characters?order_by=mal_id&sort=asc&q=Goku'));
+    final response = await http.get(Uri.parse('https://api.jikan.moe/v4/characters?order_by=mal_id&sort=asc&q=Gokuu'));
     if (response.statusCode == 200) {
       return CharactersModel.fromJson(jsonDecode(response.body)).data;
     } else {

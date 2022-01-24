@@ -57,6 +57,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         backgroundColor: Colors.orange,
         title: const Text('Universo DragonBall'),
       ),
+       
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -64,8 +65,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.tv_sharp,),
-            label: 'Anime',
-            
+            label: 'Anime',            
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book_outlined ),
