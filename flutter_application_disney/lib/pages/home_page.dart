@@ -55,7 +55,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: const Text('BottomNavigationBar Sample'),
+        title: const Text('Universo DragonBall'),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -73,7 +73,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.emoji_people_outlined),
-            label: 'Characters',
+            label: 'Personajes',
           ),
         ],
         currentIndex: _selectedIndex,

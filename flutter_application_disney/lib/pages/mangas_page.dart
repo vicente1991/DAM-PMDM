@@ -94,7 +94,7 @@ class _MyHomePageState2 extends State<Mangas> {
 
   Widget _mangasList(List<MangasData> mangasList) {
     return SizedBox(
-      height: 600,
+      height: 545,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,

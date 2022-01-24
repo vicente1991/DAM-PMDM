@@ -98,7 +98,7 @@ class _MyHomePageState2 extends State<Animes> {
   Widget _animesList(BuildContext animesList, AsyncSnapshot<List<AnimesData>> snapshot) {
     List<AnimesData>? values = snapshot.data;
     return SizedBox(
-      height: 600,
+      height: 545,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,

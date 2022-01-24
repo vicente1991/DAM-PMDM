@@ -103,7 +103,7 @@ class _MyHomePageState2 extends State<Personajes> {
   Widget _charactersList(BuildContext charactersList, AsyncSnapshot<List<CharactersData>> snapshot) {
     List<CharactersData>? values = snapshot.data;
     return SizedBox(
-      height: 600,
+      height: 545,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
