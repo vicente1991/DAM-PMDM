@@ -23,6 +23,16 @@ class MyCustomFormState extends State<Login> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 30),
+                )),
             TextFormField(
               decoration: const InputDecoration(
                 icon: Icon(Icons.person),
@@ -30,20 +40,16 @@ class MyCustomFormState extends State<Login> {
                 labelText: 'Name',
               ),
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: 'Enter a phone number',
-                labelText: 'Phone',
-              ),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.calendar_today),
-                hintText: 'Enter your date of birth',
-                labelText: 'Dob',
-              ),
-            ),
+           Container(
+                  margin: const EdgeInsets.all(10),
+                  child: const TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.password),
+                      labelText: 'Password',
+                    ),
+                  ),
+                ),
             Container(
                 padding: const EdgeInsets.only(left: 150.0, top: 40.0),
                 child: const RaisedButton(
