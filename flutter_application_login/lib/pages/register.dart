@@ -32,7 +32,14 @@ class MyCustomFormState extends State<Register> {
             ),
             TextFormField(
               decoration: const InputDecoration(
-                icon: Icon(Icons.phone),
+                icon: Icon(Icons.person_add ),
+                hintText: 'Enter your last name',
+                labelText: 'Dob',
+              ),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.mobile_friendly),
                 hintText: 'Enter a phone number',
                 labelText: 'Phone',
               ),
@@ -44,12 +51,27 @@ class MyCustomFormState extends State<Register> {
                 labelText: 'Dob',
               ),
             ),
+            TextFormField(
+              decoration: const InputDecoration(
+                icon: Icon(Icons.password),
+                hintText: 'Enter your Password',
+                labelText: 'Dob',
+              ),
+            ),
             Container(
                 padding: const EdgeInsets.only(left: 150.0, top: 40.0),
                 child: const RaisedButton(
                   child: Text('Submit'),
                   onPressed: null,
                 )),
+            Container(
+              padding: const EdgeInsets.only(left: 150.0, top: 40.0),
+              child: ElevatedButton(
+                child: const Text('Volver'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                },
+              ))
           ],
         ),
       ),

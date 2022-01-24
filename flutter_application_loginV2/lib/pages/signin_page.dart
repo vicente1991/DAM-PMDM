@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
 void main() => runApp(const Login());
 
@@ -8,9 +7,9 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: const MyStatefulWidget(),
+        body: MyStatefulWidget(),
       ),
     );
   }
@@ -53,10 +52,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: Column(
                     children: [
                       RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                           text: 'Welcome back \n',
                           style: TextStyle(fontSize: 20, color: Colors.grey),
-                          children: const <TextSpan>[
+                          children: <TextSpan>[
                             TextSpan(
                                 text: '        been missed',
                                 style: TextStyle(
@@ -73,8 +72,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
+                const Padding(
+                  padding: EdgeInsets.all(20),
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -109,7 +108,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   RichText(
-                    text: TextSpan(
+                    text: const TextSpan(
                         text: 'Recovery Password \n',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -166,9 +165,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 Color(0xFF0000000),
                               ])),
                             )),
-                        Expanded(
+                        const Expanded(
                           flex: 2,
-                          child: const Text(
+                          child: Text(
                             '            Or continue',
                             style: TextStyle(
                                 color: Colors.grey,
