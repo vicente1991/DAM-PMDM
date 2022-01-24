@@ -63,16 +63,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.tv,),
+            icon: Icon(Icons.tv_sharp,),
             label: 'Anime',
             
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: Icon(Icons.book_outlined ),
             label: 'Manga',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_people_outlined),
+            icon: Icon(Icons.account_circle_sharp),
             label: 'Personajes',
           ),
         ],
