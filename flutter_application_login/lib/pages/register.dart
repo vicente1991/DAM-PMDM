@@ -44,7 +44,7 @@ class MyCustomFormState extends State<Register> {
               decoration: const InputDecoration(
                 icon: Icon(Icons.person_add ),
                 hintText: 'Enter your last name',
-                labelText: 'Dob',
+                labelText: 'Apellidos',
               ),
             ),
             TextFormField(
