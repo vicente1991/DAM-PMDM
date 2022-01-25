@@ -52,6 +52,8 @@ class AuthDto {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['username'] = username;
+    _data['code'] = code;
     _data['email'] = email;
     _data['password'] = password;
     return _data;
