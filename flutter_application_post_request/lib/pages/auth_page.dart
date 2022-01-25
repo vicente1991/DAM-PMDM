@@ -47,7 +47,7 @@ class _AuthPageState extends State<AuthPage> {
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: TextFormField(
-                    controller: emailController,
+                    controller: usernameController,
                     decoration: const InputDecoration(
                         suffixIcon: Icon(Icons.person_add),
                         suffixIconColor: Colors.white,
@@ -68,7 +68,7 @@ class _AuthPageState extends State<AuthPage> {
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: TextFormField(
-                    controller: emailController,
+                    controller: codeController,
                     decoration: const InputDecoration(
                         suffixIcon: Icon(Icons.code),
                         suffixIconColor: Colors.white,
@@ -183,7 +183,7 @@ class _AuthPageState extends State<AuthPage> {
     Map<String,String> headers = {'Content-Type':'application/json'};
 
     final response = await http.post(
-        Uri.parse('https://www.minitwitter.com:3001/apiv1/auth/login'),
+        Uri.parse('https://www.minitwitter.com:3001/apiv1/auth/signup'),
         headers: headers,
         body: jsonEncode(_authDto.toJson()));
 
