@@ -25,7 +25,7 @@ class MyCustomFormState extends State<Register> {
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(40),
                 child: const Text(
                   'Register',
                   style: TextStyle(
@@ -58,14 +58,14 @@ class MyCustomFormState extends State<Register> {
               decoration: const InputDecoration(
                 icon: Icon(Icons.calendar_today),
                 hintText: 'Enter your date of birth',
-                labelText: 'Dob',
+                labelText: 'Fecha de Nacimiento',
               ),
             ),
             TextFormField(
               decoration: const InputDecoration(
                 icon: Icon(Icons.password),
                 hintText: 'Enter your Password',
-                labelText: 'Dob',
+                labelText: 'Password',
               ),
             ),
             Container(
@@ -75,13 +75,30 @@ class MyCustomFormState extends State<Register> {
                   onPressed: null,
                 )),
             Container(
-              padding: const EdgeInsets.only(left: 150.0, top: 40.0),
+              padding: const EdgeInsets.only(left: 150.0, top: 20.0),
               child: ElevatedButton(
                 child: const Text('Volver'),
                 onPressed: () {
                   Navigator.pushNamed(context, '/');
                 },
-              ))
+              )),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.network(
+                      'https://cdn-icons-png.flaticon.com/512/2991/2991148.png',
+                      width: 50,
+                    ),
+                    Image.network(
+                      'https://cdn3.iconfinder.com/data/icons/picons-social/57/56-apple-512.png',
+                      width: 70,
+                    ),
+                    Image.network(
+                      'https://cdn3.iconfinder.com/data/icons/capsocial-round/500/facebook-512.png',
+                      width: 50,
+                    )
+                  ],
+                )
           ],
         ),
       ),
