@@ -15,6 +15,9 @@ class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+
 
   @override
   void setState(VoidCallback fn) {
@@ -42,7 +45,49 @@ class _AuthPageState extends State<AuthPage> {
               children: [
                 Image.asset('assets/images/logo.png'),
                 Container(
-                  margin: const EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 20),
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                        suffixIcon: Icon(Icons.person_add),
+                        suffixIconColor: Colors.white,
+                        hintText: 'Username',
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white))),
+                    onSaved: (String? value) {
+                      // This optional block of code can be used to run
+                      // code when the user saves the form.
+                    },
+                    validator: (String? value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Do not use the @ char.'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                        suffixIcon: Icon(Icons.code),
+                        suffixIconColor: Colors.white,
+                        hintText: 'Code',
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white))),
+                    onSaved: (String? value) {
+                      // This optional block of code can be used to run
+                      // code when the user saves the form.
+                    },
+                    validator: (String? value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Do not use the @ char.'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
                   child: TextFormField(
                     controller: emailController,
                     decoration: const InputDecoration(
@@ -133,7 +178,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<AuthResponse> _doLogin(BuildContext context) async {
     AuthDto _authDto = AuthDto(
-        email: emailController.text, password: passwordController.text);
+        username: usernameController.text,code: codeController.text, email: emailController.text, password: passwordController.text);
 
     Map<String,String> headers = {'Content-Type':'application/json'};
 

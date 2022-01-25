@@ -40,9 +40,13 @@ class AuthResponse {
 }
 class AuthDto {
   AuthDto({
+    required this.username,
+    required this.code,
     required this.email,
     required this.password,
   });
+  late final String username;
+  late final String code;
   late final String email;
   late final String password;
 
