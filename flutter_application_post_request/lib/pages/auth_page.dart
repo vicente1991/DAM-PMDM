@@ -178,7 +178,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Future<AuthResponse> _doLogin(BuildContext context) async {
     AuthDto _authDto = AuthDto(
-        username: usernameController.text,code: codeController.text, email: emailController.text, password: passwordController.text);
+        username: usernameController.text,code: 'UDEMYANDROID', email: emailController.text, password: passwordController.text);
 
     Map<String,String> headers = {'Content-Type':'application/json'};
 
