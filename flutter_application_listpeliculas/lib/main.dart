@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_listpeliculas/pages/home_page.dart';
+import 'package:flutter_application_listpeliculas/pages/movies_pages.dart';
 
 
 void main() {
@@ -70,9 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
-        '/favoritas': (context) => const Favoritas(title: 'Favoritas',),
-        '/descargadas': (context) => const Animes(title: 'Descargadas',),
-        '/configuración': (context) => const Personajes(title: 'Configuración',),
+        '/favoritas': (context) => const Movies(title: 'Favoritas',),
       },
     );
   }

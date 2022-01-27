@@ -57,7 +57,7 @@ class _MyHomePageState2 extends State<Movies> {
     return Scaffold(
       body: Column(
         children: [
-          FutureBuilder<List<Movies>>(
+          FutureBuilder<List<MoviesData>>(
             future: fetchMovies(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
