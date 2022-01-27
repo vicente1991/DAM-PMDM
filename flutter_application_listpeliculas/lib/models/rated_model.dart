@@ -1,18 +1,18 @@
-class MoviesResponse {
-  MoviesResponse({
+class RatedModel {
+  RatedModel({
     required this.page,
     required this.results,
     required this.totalPages,
     required this.totalResults,
   });
   late final int page;
-  late final List<MoviesData> results;
+  late final List<RatedData> results;
   late final int totalPages;
   late final int totalResults;
   
-  MoviesResponse.fromJson(Map<String, dynamic> json){
+  RatedModel.fromJson(Map<String, dynamic> json){
     page = json['page'];
-    results = List.from(json['results']).map((e)=>MoviesData.fromJson(e)).toList();
+    results = List.from(json['results']).map((e)=>RatedData.fromJson(e)).toList();
     totalPages = json['total_pages'];
     totalResults = json['total_results'];
   }
@@ -27,8 +27,8 @@ class MoviesResponse {
   }
 }
 
-class MoviesData {
-  MoviesData({
+class RatedData {
+  RatedData({
     required this.adult,
     required this.backdropPath,
     required this.genreIds,
@@ -59,7 +59,7 @@ class MoviesData {
   late final double voteAverage;
   late final int voteCount;
   
-  MoviesData.fromJson(Map<String, dynamic> json){
+  RatedData.fromJson(Map<String, dynamic> json){
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     genreIds = List.castFrom<dynamic, int>(json['genre_ids']);
