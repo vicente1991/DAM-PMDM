@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_application_listpeliculas/models/movies_model.dart';
+import 'package:flutter_application_listpeliculas/models/rated_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -145,7 +146,7 @@ class _MyHomePageState2 extends State<Movies> {
               child: const Text('Rated Movies',
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-          FutureBuilder<List<MoviesData>>(
+          FutureBuilder<List<RatedData>>(
             future: fetchMovies2(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
@@ -207,7 +208,7 @@ class _MyHomePageState2 extends State<Movies> {
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
             onTap: () {
-              Navigator.pushNamed(context, '/film-details', arguments: movies);
+              Navigator.pushNamed(context, '/movie_details', arguments: movies);
             },
             child: SizedBox(
               width: 30,
@@ -224,26 +225,26 @@ class _MyHomePageState2 extends State<Movies> {
         ));
   }
 
-  Widget _getMoviesImg2(MoviesData img) {
+  Widget _getMoviesImg2(RatedData img) {
     return Image.network(
       'https://image.tmdb.org/t/p/w200${img.posterPath}',
       fit: BoxFit.cover,
     );
   }
 
-  Future<List<MoviesData>> fetchMovies2() async {
+  Future<List<RatedData>> fetchMovies2() async {
     final response = await http.get(Uri.parse(
         'https://api.themoviedb.org/3/movie/popular?api_key=412b34903210aefd34b0ef308f8b2ba0&language=en-US&page=1'));
     if (response.statusCode == 200) {
-      return MoviesResponse.fromJson(jsonDecode(response.body)).results;
+      return RatedModel.fromJson(jsonDecode(response.body)).results;
     } else {
       throw Exception('Failed to load movie');
     }
   }
 
   Widget _moviesList2(
-      BuildContext movieList, AsyncSnapshot<List<MoviesData>> snapshot) {
-    List<MoviesData>? values = snapshot.data;
+      BuildContext movieList, AsyncSnapshot<List<RatedData>> snapshot) {
+    List<RatedData>? values = snapshot.data;
     return SizedBox(
       height: 545,
       width: MediaQuery.of(context).size.width,
@@ -257,7 +258,7 @@ class _MyHomePageState2 extends State<Movies> {
     );
   }
 
-  Widget _moviesItem2(MoviesData movies, int index) {
+  Widget _moviesItem2(RatedData movies, int index) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 20.0),
         width: MediaQuery.of(context).size.width,
@@ -265,7 +266,7 @@ class _MyHomePageState2 extends State<Movies> {
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
             onTap: () {
-              Navigator.pushNamed(context, '/film-details', arguments: movies);
+              Navigator.pushNamed(context, '/movie_details', arguments: movies);
             },
             child: SizedBox(
               width: 30,
