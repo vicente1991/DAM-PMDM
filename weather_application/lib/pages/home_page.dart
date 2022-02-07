@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_application/pages/city_select_page.dart';
+import 'package:weather_application/pages/mars_page.dart';
 import 'package:weather_application/pages/place_select.dart';
 
 
@@ -7,7 +8,7 @@ import 'package:weather_application/pages/place_select.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
-  @override
+   @override
   State<Home> createState() => _MyHomePageState();
 }
 
@@ -16,13 +17,14 @@ class _MyHomePageState extends State<Home> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    
     PlaceSelected(
        title: 'Place',
     ),
-    SelectCity(), 
-    Text('ciudades')
-    
+
+    SelectCity(),
+
+
+    Mars()
   ];
 
   void _onItemTapped(int index) {
@@ -55,12 +57,11 @@ class _MyHomePageState extends State<Home> {
         backgroundColor: Colors.black87,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined,),
-            label: 'City',
-            
+            icon: Icon(Icons.home_outlined),
+            label: 'Current',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.map_outlined,),
             label: 'Ciudades',
           ),
           BottomNavigationBarItem(
@@ -70,6 +71,7 @@ class _MyHomePageState extends State<Home> {
         ],
        currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.white70,
         onTap: _onItemTapped,
       ),
     );

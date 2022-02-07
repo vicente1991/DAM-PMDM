@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/city_model.dart';
 
 void main() {
@@ -43,81 +43,89 @@ class SelectCity extends StatefulWidget {
   @override
   State<SelectCity> createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<SelectCity> {
   late Future<List<LocationModel>> items;
   @override
   void initState() {
-    items = fetchPeople();
+    items = fetchCities();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
         length: 1,
         child: Scaffold(
-          body: TabBarView(
-            children: [
-              Center(
-                child: FutureBuilder<List<LocationModel>>(
-                  future: items,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return _peopleList(snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
-                    return const Center(child: CircularProgressIndicator());
-                  },
+          body: Container(
+            decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/earth.jpg",
                 ),
-              ),
-            ],
+                fit: BoxFit.cover)),
+            child: TabBarView(
+              children: [
+                Center(
+                  child: FutureBuilder<List<LocationModel>>(
+                    future: items,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return _cityList(snapshot.data!);
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
-  Future<List<LocationModel>> fetchPeople() async {
+  Future<List<LocationModel>> fetchCities() async {
+    
     return coord;
   }
-
-  Widget _peopleList(List<LocationModel> peopleList) {
+  Widget _cityList(List<LocationModel> peopleList) {
     return SizedBox(
-      height: 200,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.vertical,
         itemCount: peopleList.length,
         itemBuilder: (context, index) {
-          return _peopleItem(peopleList.elementAt(index), index);
+          return _cityItem(peopleList.elementAt(index), index);
         },
       ),
     );
   }
-
-  Widget _peopleItem(LocationModel people, int index) {
+  Widget _cityItem(LocationModel people, int index) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 20.0),
+      margin: EdgeInsets.all(8),
         width: 150,
         child: Card(
+          color: Colors.white24,
           child: InkWell(
             splashColor: Colors.red.withAlpha(30),
-            onTap: () {
-              debugPrint('Card tapped.');
+            onTap: () async{
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setInt('indexCity', index);
             },
             child: SizedBox(
               width: 300,
-              height: 150,
+              height: 50,
               child: Column(
                 children: [
-                  Text(people.city),
+                  Text(people.city, style: TextStyle(color: Colors.white),),
                 ],
               ),
             ),
           ),
         ));
   }
+
+  
 }
