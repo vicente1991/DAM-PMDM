@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
 
 const CameraPosition _kInitialPosition =
     CameraPosition(target: LatLng(37.3826,-6.0066), zoom: 15.0);
+
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -34,10 +36,15 @@ class _MapClickBodyState extends State<_MapClickBody> {
     final GoogleMap googleMap = GoogleMap(
       onMapCreated: onMapCreated,
       initialCameraPosition: _kInitialPosition,
-      onTap: (LatLng pos) {
+      onTap: (LatLng pos) async {
+        
         setState(() {
           _lastTap = pos;
         });
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setDouble('lat', pos.latitude);
+              prefs.setDouble('lng', pos.longitude);
       },
       onLongPress: (LatLng pos) {
         setState(() {
@@ -95,8 +102,10 @@ class _MapClickBodyState extends State<_MapClickBody> {
   }
 
   void onMapCreated(GoogleMapController controller) async {
+    
     setState(() {
       mapController = controller;
     });
+    
   }
 }

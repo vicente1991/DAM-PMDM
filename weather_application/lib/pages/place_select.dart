@@ -18,15 +18,6 @@ Widget build(BuildContext context) {
   return MaterialApp(
     title: 'Flutter Demo',
     theme: ThemeData(
-      // This is the theme of your application.
-      //
-      // Try running your application with "flutter run". You'll see the
-      // application has a blue toolbar. Then, without quitting the app, try
-      // changing the primarySwatch below to Colors.green and then invoke
-      // "hot reload" (press "r" in the console where you ran "flutter run",
-      // or simply save your changes to "hot reload" in a Flutter IDE).
-      // Notice that the counter didn't reset back to zero; the application
-      // is not restarted.
       primarySwatch: Colors.blue,
     ),
     home: const PlaceSelected(title: 'Flutter Demo Home Page'),
@@ -126,8 +117,8 @@ class _MyHomePageState2 extends State<PlaceSelected> {
               ],
             ),
           ),
-        )) 
-        ,
+        ),) 
+        
       ),
     );
   }
@@ -136,45 +127,54 @@ class _MyHomePageState2 extends State<PlaceSelected> {
   Future<WeatherModel> fetchWeather() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var index = prefs.getInt('indexCity');
+    var lat = prefs.getDouble('lat');
+    var lng = prefs.getDouble('lng');
     citiSelect = coord[index!].city;
+    latSelected = lat!;
+    lngSelected = lng!;
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/weather?q=${citiSelect}&appid=815f1b53374a93613472453ddafbe385'));
+        'https://api.openweathermap.org/data/2.5/weather?lat=${latSelected}&lon=${lngSelected}&appid=815f1b53374a93613472453ddafbe385'));
     if (response.statusCode == 200) {
       return WeatherModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 
   Future<List<Daily>> fetchDaily() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var index = prefs.getInt('indexCity');
+    var lat = prefs.getDouble('lat');
+    var lng = prefs.getDouble('lng');
     citiSelect = coord[index!].city;
-    latSelected = coord[index].lat;
-    lngSelected = coord[index].lng;
+    latSelected = lat!;
+    lngSelected = lng!;
+   
 
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=815f1b53374a93613472453ddafbe385&units=metric'));
     if (response.statusCode == 200) {
       return OneCallModel.fromJson(jsonDecode(response.body)).daily;
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 
   Future<List<Hourly>> fetchHourly() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var index = prefs.getInt('indexCity');
+    var lat = prefs.getDouble('lat');
+    var lng = prefs.getDouble('lng');
     citiSelect = coord[index!].city;
-    latSelected = coord[index].lat;
-    lngSelected = coord[index].lng;
+    latSelected = lat!;
+    lngSelected = lng!;
 
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=815f1b53374a93613472453ddafbe385&units=metric'));
     if (response.statusCode == 200) {
       return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 
@@ -337,3 +337,6 @@ class _MyHomePageState2 extends State<PlaceSelected> {
   @override
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
+
+
+//apikey=815f1b53374a93613472453ddafbe385//
