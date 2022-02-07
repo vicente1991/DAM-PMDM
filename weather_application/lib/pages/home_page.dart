@@ -3,12 +3,14 @@ import 'package:weather_application/pages/city_select_page.dart';
 import 'package:weather_application/pages/mars_page.dart';
 import 'package:weather_application/pages/place_select.dart';
 
+import 'map.dart';
+
 
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
-   @override
+  @override
   State<Home> createState() => _MyHomePageState();
 }
 
@@ -21,7 +23,7 @@ class _MyHomePageState extends State<Home> {
        title: 'Place',
     ),
 
-    SelectCity(),
+    MapClickPage(),
 
 
     Mars()
@@ -58,11 +60,11 @@ class _MyHomePageState extends State<Home> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            label: 'Current',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map_outlined,),
-            label: 'Ciudades',
+            label: 'Mapa',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.filter_tilt_shift_sharp),

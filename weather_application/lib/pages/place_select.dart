@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:date_format/date_format.dart';
 import 'package:weather_application/models/city_model.dart';
 import 'package:weather_application/models/one_call.dart';
 import 'package:weather_application/models/weather_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:date_format/date_format.dart';
 
 late Future<List<WeatherModel>> items;
 
@@ -43,37 +43,22 @@ class PlaceSelected extends StatefulWidget {
 
 class _MyHomePageState2 extends State<PlaceSelected> {
   late Future<WeatherModel> currentWeather;
-  late Future<OneCallModel> oneCallWeather;
+  late Future<List<Hourly>> hourlyWeather;
+  late Future<List<Daily>> dailyWeather;
 
   @override
   void initState() {
     currentWeather = fetchWeather();
-    oneCallWeather = fetchDaily();
+    dailyWeather = fetchDaily();
+    hourlyWeather = fetchHourly();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    /*if (citiSelect=="") {
-      return MaterialApp(
-        home: Scaffold(body: Container(
-          height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/earth.png",
-                ),
-                fit: BoxFit.cover)),
-          child: const Center(
-            child: Text('No hay nada seleccionado', style: TextStyle(color: Colors.white),),
-          ),
-        ),),
-      );
-    } else {*/
     return MaterialApp(
       home: Scaffold(
-        body: Container(
+        body: SingleChildScrollView(child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -106,24 +91,43 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                     return const Center(child: CircularProgressIndicator());
                   },
                 ),
-                FutureBuilder<OneCallModel>(
-                  future: oneCallWeather,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}', style: const TextStyle(color: Colors.white),);
-                    }
+                Padding(
+                  padding: const EdgeInsets.only(top: 50, bottom: 50),
+                  child: FutureBuilder<List<Daily>>(
+                      future: dailyWeather,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return _dailyList(snapshot.data!);
+                        } else if (snapshot.hasError) {
+                          return Text(
+                            '${snapshot.error}',
+                            style: TextStyle(color: Colors.white),
+                          );
+                        }
 
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  
-                )
+                        return const Center(child: CircularProgressIndicator());
+                      }),
+                ),
+                    FutureBuilder<List<Hourly>>(
+                    future: hourlyWeather,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return _hourlyList(snapshot.data!);
+                      } else if (snapshot.hasError) {
+                        return Text(
+                          '${snapshot.error}',
+                          style: TextStyle(color: Colors.white),
+                        );
+                      }
+
+                      return const Center(child: CircularProgressIndicator());
+                    })
+
               ],
             ),
           ),
-        ),
+        )) 
+        ,
       ),
     );
   }
@@ -138,10 +142,11 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     if (response.statusCode == 200) {
       return WeatherModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load weather');
+      throw Exception('Failed to load planets');
     }
   }
-  Future<OneCallModel> fetchDaily() async {
+
+  Future<List<Daily>> fetchDaily() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var index = prefs.getInt('indexCity');
     citiSelect = coord[index!].city;
@@ -149,11 +154,27 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     lngSelected = coord[index].lng;
 
     final response = await http.get(Uri.parse(
-        'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=hourly,daily&appid=815f1b53374a93613472453ddafbe385'));
+        'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=815f1b53374a93613472453ddafbe385&units=metric'));
     if (response.statusCode == 200) {
-      return OneCallModel.fromJson(jsonDecode(response.body));
+      return OneCallModel.fromJson(jsonDecode(response.body)).daily;
     } else {
-      throw Exception('Failed to load weather');
+      throw Exception('Failed to load planets');
+    }
+  }
+
+  Future<List<Hourly>> fetchHourly() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var index = prefs.getInt('indexCity');
+    citiSelect = coord[index!].city;
+    latSelected = coord[index].lat;
+    lngSelected = coord[index].lng;
+
+    final response = await http.get(Uri.parse(
+        'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=815f1b53374a93613472453ddafbe385&units=metric'));
+    if (response.statusCode == 200) {
+      return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
+    } else {
+      throw Exception('Failed to load planets');
     }
   }
 
@@ -196,12 +217,15 @@ class _MyHomePageState2 extends State<PlaceSelected> {
             margin: const EdgeInsets.only(left: 25),
             child: Row(
               children: [
-                Positioned(
-                    child: Text(response.main.temp.toString(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 65,
-                            fontWeight: FontWeight.bold))),
+                Padding(
+                  padding: const EdgeInsets.only(left: 60),
+                  child: Positioned(
+                      child: Text((response.main.temp - 273).toStringAsFixed(1),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 65,
+                              fontWeight: FontWeight.bold))),
+                ),
                 const Positioned(
                     child: Text("ºC",
                         style: TextStyle(
@@ -222,7 +246,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                         Icons.arrow_downward_sharp,
                         color: Colors.white,
                       ),
-                      Text(response.main.tempMin.toString(),
+                      Text((response.main.tempMin - 273).toStringAsFixed(1),
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -235,7 +259,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                         Icons.arrow_upward_sharp,
                         color: Colors.white,
                       ),
-                      Text(response.main.tempMax.toString(),
+                      Text((response.main.tempMax - 273).toStringAsFixed(1),
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -246,6 +270,67 @@ class _MyHomePageState2 extends State<PlaceSelected> {
               ))
         ],
       ),
+    );
+  }
+
+  Widget _hourlyList(List<Hourly> hourlyResponse){
+
+    return SizedBox(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        
+        scrollDirection: Axis.horizontal,
+        itemCount: hourlyResponse.length,
+        itemBuilder: (context, index){
+           return _hourlyItem(hourlyResponse.elementAt(index), index);
+        }
+      ),
+    );
+
+  }
+
+  Widget _hourlyItem(Hourly hour, int index){
+    return Container(
+      width: 100,
+        decoration: BoxDecoration(
+        color: Colors.blue[800]?.withOpacity(0.8),
+       
+      ),
+      child: Column(children: [
+        Text(hour.pressure.toString(),)
+      ],),
+    );
+  }
+
+   Widget _dailyList(List<Daily> dailyResponse){
+
+    return SizedBox(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        
+        scrollDirection: Axis.horizontal,
+        itemCount: dailyResponse.length,
+        itemBuilder: (context, index){
+           return _dailyItem(dailyResponse.elementAt(index), index);
+        }
+      ),
+    );
+
+  }
+
+  Widget _dailyItem(Daily daily, int index){
+    return Container(
+      width: 100,
+        decoration: BoxDecoration(
+        color: Colors.blue[800]?.withOpacity(0.8),
+      ),
+      child: Column(children: [
+        Text(daily.pressure.toString(),),
+        Image.network('http://openweathermap.org/img/wn/' +daily.weather[0].icon +'.png'),
+        Text(daily.temp.day.toString()),
+      ],),
     );
   }
 
