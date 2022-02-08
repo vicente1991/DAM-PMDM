@@ -49,7 +49,8 @@ class _MyHomePageState2 extends State<PlaceSelected> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(child: Container(
+          body: SingleChildScrollView(
+        child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -92,14 +93,14 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                         } else if (snapshot.hasError) {
                           return Text(
                             '${snapshot.error}',
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           );
                         }
 
                         return const Center(child: CircularProgressIndicator());
                       }),
                 ),
-                    FutureBuilder<List<Hourly>>(
+                FutureBuilder<List<Hourly>>(
                     future: hourlyWeather,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -107,22 +108,19 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                       } else if (snapshot.hasError) {
                         return Text(
                           '${snapshot.error}',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         );
                       }
 
                       return const Center(child: CircularProgressIndicator());
                     })
-
               ],
             ),
           ),
-        ),) 
-        
-      ),
+        ),
+      )),
     );
   }
-  //}
 
   Future<WeatherModel> fetchWeather() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -149,7 +147,6 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     citiSelect = coord[index!].city;
     latSelected = lat!;
     lngSelected = lng!;
-   
 
     final response = await http.get(Uri.parse(
         'https://api.openweathermap.org/data/2.5/onecall?lat=${latSelected}&lon=${lngSelected}&exclude=minutely&appid=815f1b53374a93613472453ddafbe385&units=metric'));
@@ -187,7 +184,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
         ),
         const Padding(
           padding: EdgeInsets.only(left: 0),
-          child: Text('Current Location',
+          child: Text('Ciudad escogida',
               style: TextStyle(color: Colors.white, fontSize: 13)),
         )
       ],
@@ -242,6 +239,13 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                 children: [
                   Row(
                     children: [
+                      const Text(
+                        "Minimas: ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
                       const Icon(
                         Icons.arrow_downward_sharp,
                         color: Colors.white,
@@ -255,6 +259,13 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                   ),
                   Row(
                     children: [
+                      const Text(
+                        "Maximas: ",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
                       const Icon(
                         Icons.arrow_upward_sharp,
                         color: Colors.white,
@@ -273,64 +284,72 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     );
   }
 
-  Widget _hourlyList(List<Hourly> hourlyResponse){
-
+  Widget _hourlyList(List<Hourly> hourlyResponse) {
     return SizedBox(
       height: 100,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
-        
-        scrollDirection: Axis.horizontal,
-        itemCount: hourlyResponse.length,
-        itemBuilder: (context, index){
-           return _hourlyItem(hourlyResponse.elementAt(index), index);
-        }
-      ),
+          scrollDirection: Axis.horizontal,
+          itemCount: hourlyResponse.length,
+          itemBuilder: (context, index) {
+            return _hourlyItem(hourlyResponse.elementAt(index), index);
+          }),
     );
-
   }
 
-  Widget _hourlyItem(Hourly hour, int index){
+  Widget _hourlyItem(Hourly hour, int index) {
     return Container(
       width: 100,
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.blue[800]?.withOpacity(0.8),
-       
       ),
-      child: Column(children: [
-        Text(hour.pressure.toString(),)
-      ],),
+      child: Column(
+        children: [
+          Text(
+            hour.pressure.toString(),
+          )
+        ],
+      ),
     );
   }
 
-   Widget _dailyList(List<Daily> dailyResponse){
-
+  Widget _dailyList(List<Daily> dailyResponse) {
     return SizedBox(
       height: 100,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
-        
-        scrollDirection: Axis.horizontal,
-        itemCount: dailyResponse.length,
-        itemBuilder: (context, index){
-           return _dailyItem(dailyResponse.elementAt(index), index);
-        }
-      ),
+          scrollDirection: Axis.horizontal,
+          itemCount: dailyResponse.length,
+          itemBuilder: (context, index) {
+            return _dailyItem(dailyResponse.elementAt(index), index);
+          }),
     );
-
   }
 
-  Widget _dailyItem(Daily daily, int index){
+  Widget _dailyItem(Daily daily, int index) {
     return Container(
       width: 100,
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.blue[800]?.withOpacity(0.8),
       ),
-      child: Column(children: [
-        Text(daily.pressure.toString(),),
-        Image.network('http://openweathermap.org/img/wn/' +daily.weather[0].icon +'.png'),
-        Text(daily.temp.day.toString()),
-      ],),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("Temp Media: ",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),
+          Image.network('http://openweathermap.org/img/wn/' +
+              daily.weather[0].icon +
+              '.png'),
+          Text(daily.temp.day.toString() + "º",
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 

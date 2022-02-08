@@ -1,12 +1,13 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
+import 'package:weather_application/pages/search.dart';
 
 const CameraPosition _kInitialPosition =
-    CameraPosition(target: LatLng(37.3826,-6.0066), zoom: 15.0);
-
+    CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 15.0);
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -28,7 +29,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
   _MapClickBodyState();
 
   GoogleMapController? mapController;
-  LatLng? _lastTap;
+  LatLng _lastTap = LatLng(37.3826, -6.0066);
   LatLng? _lastLongPress;
 
   @override
@@ -37,15 +38,14 @@ class _MapClickBodyState extends State<_MapClickBody> {
       onMapCreated: onMapCreated,
       initialCameraPosition: _kInitialPosition,
       onTap: (LatLng pos) async {
-        
         setState(() {
           _lastTap = pos;
         });
-
         SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setDouble('lat', pos.latitude);
-              prefs.setDouble('lng', pos.longitude);
+        prefs.setDouble('lat', pos.latitude);
+        prefs.setDouble('lng', pos.longitude);
       },
+      markers: <Marker>{_createMarker()},
       onLongPress: (LatLng pos) {
         setState(() {
           _lastLongPress = pos;
@@ -55,7 +55,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
 
     final List<Widget> columnChildren = <Widget>[
       Padding(
-        padding: const EdgeInsets.only(top: 50.0),
+        padding: const EdgeInsets.only(top: 90.0, bottom: 88.0),
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -64,48 +64,24 @@ class _MapClickBodyState extends State<_MapClickBody> {
           ),
         ),
       ),
+      SearchBarWidget()
     ];
-
-    if (mapController != null) {
-      final String lastTap = 'Tap:\n${_lastTap ?? ""}\n';
-      final String lastLongPress = 'Long press:\n${_lastLongPress ?? ""}';
-      columnChildren.add(Center(
-          child: Text(
-        lastTap,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
-      )));
-      columnChildren.add(Center(
-          child: Text(
-        _lastTap != null ? 'Ubicación' : '',
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white)
-      )));
-      columnChildren.add(Center(
-          child: Text(
-        lastLongPress,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white)
-      )));
-      columnChildren.add(Center(
-          child: Text(
-        _lastLongPress != null ? 'Long pressed' : '',
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white)
-      )));
-    }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: columnChildren,
+    return SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: columnChildren,
+        ),
     );
   }
 
   void onMapCreated(GoogleMapController controller) async {
-    
     setState(() {
       mapController = controller;
     });
-    
+  }
+
+  Marker _createMarker() {
+    return Marker(markerId: const MarkerId("marker"), position: _lastTap);
   }
 }
