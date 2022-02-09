@@ -1,13 +1,12 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
 import 'package:weather_application/pages/search.dart';
+import 'package:weather_application/utils/preferences.dart';
 
-const CameraPosition _kInitialPosition =
-    CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 6.0);
+CameraPosition _kInitialPosition =
+    const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: .0);
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -26,11 +25,29 @@ class _MapClickBody extends StatefulWidget {
 }
 
 class _MapClickBodyState extends State<_MapClickBody> {
-  _MapClickBodyState();
-
   GoogleMapController? mapController;
-  LatLng _lastTap = LatLng(37.3826, -6.0066);
+  LatLng _lastTap = LatLng(0, 0);
   LatLng? _lastLongPress;
+
+  @override
+  void initState() {
+    super.initState();
+    coordenadas();
+  }
+
+  coordenadas() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble('lat') != null) {
+      double? lat = prefs.getDouble('lat');
+      double? lng = prefs.getDouble('lng');
+      _lastTap = LatLng(lat!, lng!);
+      _kInitialPosition = CameraPosition(target: _lastTap, zoom: 8.0);
+    } else {
+      _kInitialPosition = const CameraPosition(
+          target: LatLng(37.3754865, -6.0250989), zoom: 8.0);
+      return _lastTap = const LatLng(37.3754865, -6.0250989);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +57,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
       onTap: (LatLng pos) async {
         setState(() {
           _lastTap = pos;
+          coordenadas();
         });
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setDouble('lat', pos.latitude);
@@ -63,16 +81,19 @@ class _MapClickBodyState extends State<_MapClickBody> {
             child: googleMap,
           ),
         ),
-      ),SearchBarWidget()
+      ),
+      SearchBarWidget()
     ];
     return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(children: columnChildren,)
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            children: columnChildren,
+          )
+        ],
+      ),
     );
   }
 
