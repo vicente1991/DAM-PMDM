@@ -41,10 +41,10 @@ class _MapClickBodyState extends State<_MapClickBody> {
       double? lat = prefs.getDouble('lat');
       double? lng = prefs.getDouble('lng');
       _lastTap = LatLng(lat!, lng!);
-      _kInitialPosition = CameraPosition(target: _lastTap, zoom: 8.0);
+      _kInitialPosition = CameraPosition(target: _lastTap, zoom: 5.0);
     } else {
       _kInitialPosition = const CameraPosition(
-          target: LatLng(37.3754865, -6.0250989), zoom: 8.0);
+          target: LatLng(37.3754865, -6.0250989), zoom: 5.0);
       return _lastTap = const LatLng(37.3754865, -6.0250989);
     }
   }

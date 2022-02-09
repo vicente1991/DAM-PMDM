@@ -547,7 +547,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     if (response.statusCode == 200) {
       return WeatherModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 
@@ -565,7 +565,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     if (response.statusCode == 200) {
       return OneCallModel.fromJson(jsonDecode(response.body)).daily;
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 
@@ -583,7 +583,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     if (response.statusCode == 200) {
       return OneCallModel.fromJson(jsonDecode(response.body)).hourly;
     } else {
-      throw Exception('Failed to load planets');
+      throw Exception('Failed to load weather');
     }
   }
 }
