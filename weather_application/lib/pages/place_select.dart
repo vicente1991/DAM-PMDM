@@ -62,7 +62,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
         ),
         child: const Center(
           child: Text(
-            'No hay ninguna ciudad seleccionada',
+            'Selecciona una ciudad en la pantalla de Mapa',
             style: TextStyle(color: Colors.white),
           ),
         ),
