@@ -7,7 +7,7 @@ import 'package:weather_application/models/page.dart';
 import 'package:weather_application/pages/search.dart';
 
 const CameraPosition _kInitialPosition =
-    CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 15.0);
+    CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 6.0);
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -55,22 +55,23 @@ class _MapClickBodyState extends State<_MapClickBody> {
 
     final List<Widget> columnChildren = <Widget>[
       Padding(
-        padding: const EdgeInsets.only(top: 90.0, bottom: 88.0),
+        padding: const EdgeInsets.only(top: 239.0, bottom: 40.0),
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 400,
+            height: 300,
             child: googleMap,
           ),
         ),
-      ),
-      SearchBarWidget()
+      ),SearchBarWidget()
     ];
     return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: columnChildren,
+          children: [
+            Column(children: columnChildren,)
+          ],
         ),
     );
   }
