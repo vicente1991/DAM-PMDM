@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather_application/pages/city_select_page.dart';
 import 'package:weather_application/pages/mars_page.dart';
 import 'package:weather_application/pages/place_select.dart';
 
@@ -16,8 +15,6 @@ class Home extends StatefulWidget {
 
 class _MyHomePageState extends State<Home> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PlaceSelected(
        title: 'Place',

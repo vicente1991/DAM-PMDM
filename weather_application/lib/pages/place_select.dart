@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -111,7 +113,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                       top: size.height * 0.005,
                     ),
                     child: const Align(
-                      child: Text('Current Location',
+                      child: Text('Ciudad escogida',
                           style:
                               TextStyle(color: Colors.white54, fontSize: 20)),
                     ),
@@ -256,7 +258,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                                     } else if (snapshot.hasError) {
                                       return Text(
                                         '${snapshot.error}',
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: Colors.white),
                                       );
                                     }
 
@@ -285,9 +287,6 @@ class _MyHomePageState2 extends State<PlaceSelected> {
 
   Widget _temperature(WeatherModel response) {
     Size size = MediaQuery.of(context).size;
-    String _selectedDateTime = formatDate(
-        DateTime.now(), [DD, ", ", dd, " ", MM, " ", yyyy],
-        locale: const SpanishDateLocale());
 
     double temperature = (response.main.temp) - 273;
 

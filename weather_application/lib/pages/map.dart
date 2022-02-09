@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
 import 'package:weather_application/pages/search.dart';
-import 'package:weather_application/utils/preferences.dart';
 
 CameraPosition _kInitialPosition =
     const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: .0);
@@ -26,8 +25,7 @@ class _MapClickBody extends StatefulWidget {
 
 class _MapClickBodyState extends State<_MapClickBody> {
   GoogleMapController? mapController;
-  LatLng _lastTap = LatLng(0, 0);
-  LatLng? _lastLongPress;
+  LatLng _lastTap = const LatLng(0, 0);
 
   @override
   void initState() {
@@ -66,7 +64,6 @@ class _MapClickBodyState extends State<_MapClickBody> {
       markers: <Marker>{_createMarker()},
       onLongPress: (LatLng pos) {
         setState(() {
-          _lastLongPress = pos;
         });
       },
     );
@@ -82,7 +79,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
           ),
         ),
       ),
-      SearchBarWidget()
+      const SearchBarWidget()
     ];
     return SingleChildScrollView(
       child: Column(
