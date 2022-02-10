@@ -164,10 +164,10 @@ class Hourly {
   late final dynamic pressure;
   late final dynamic humidity;
   late final dynamic dewPoint;
-  late final dynamic? uvi;
+  late final dynamic uvi;
   late final dynamic clouds;
   late final dynamic visibility;
-  late final dynamic? windSpeed;
+  late final dynamic windSpeed;
   late final dynamic windDeg;
   late final dynamic windGust;
   late final List<Weather> weather;
@@ -248,7 +248,7 @@ class Daily {
   late final List<Weather> weather;
   late final dynamic clouds;
   late final dynamic pop;
-  late final dynamic? uvi;
+  late final dynamic uvi;
   
   Daily.fromJson(Map<String, dynamic> json){
     dt = json['dt'];
