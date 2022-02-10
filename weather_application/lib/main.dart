@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_application/pages/home_page.dart';
+import 'package:weather_application/pages/mapa_inicio.dart';
+import 'package:weather_application/pages/pagina_inicio.dart';
 import 'package:weather_application/pages/place_select.dart';
 import 'pages/mars_page.dart';
-
-
 
 void main() {
   runApp(const MyApp());
@@ -34,17 +34,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
- 
-    return MaterialApp(initialRoute: '/',
-    routes: {
-      '/': (context) => const Home(),
-      '/place_selected': (context) => const PlaceSelected(title: '',),
-      '/mars': (context) => const Mars(),
-      
-    },);
+    return MaterialApp(
+      initialRoute: '/inicio',
+      routes: {
+        '/': (context) => const Home(),
+        '/place_selected': (context) => const PlaceSelected(
+              title: '',
+            ),
+        '/mars': (context) => const Mars(),
+        '/inicio': (context) => const PaginaInicio(),
+      },
+    );
   }
 }

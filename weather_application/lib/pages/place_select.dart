@@ -91,6 +91,16 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
+                      top: size.height * 0.005,
+                    ),
+                    child: const Align(
+                      child: Text('Ciudad escogida: ',
+                          style:
+                              TextStyle(color: Colors.white54, fontSize: 20)),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
                       top: size.height * 0.03,
                     ),
                     child: Align(
@@ -108,16 +118,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: size.height * 0.005,
-                    ),
-                    child: const Align(
-                      child: Text('Ciudad escogida',
-                          style:
-                              TextStyle(color: Colors.white54, fontSize: 20)),
-                    ),
-                  ),
+                
                   Padding(
                     padding: EdgeInsets.only(
                       top: size.height * 0.03,
@@ -258,7 +259,8 @@ class _MyHomePageState2 extends State<PlaceSelected> {
                                     } else if (snapshot.hasError) {
                                       return Text(
                                         '${snapshot.error}',
-                                        style: const TextStyle(color: Colors.white),
+                                        style: const TextStyle(
+                                            color: Colors.white),
                                       );
                                     }
 
@@ -546,7 +548,7 @@ class _MyHomePageState2 extends State<PlaceSelected> {
     if (response.statusCode == 200) {
       return WeatherModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load weather');
+      throw Exception('Failed to load city');
     }
   }
 

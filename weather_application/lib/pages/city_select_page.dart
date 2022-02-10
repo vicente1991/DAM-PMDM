@@ -72,20 +72,20 @@ class _MyHomePageState extends State<SelectCity> {
     
     return coord;
   }
-  Widget _cityList(List<LocationModel> peopleList) {
+  Widget _cityList(List<LocationModel> cityList) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: peopleList.length,
+        itemCount: cityList.length,
         itemBuilder: (context, index) {
-          return _cityItem(peopleList.elementAt(index), index);
+          return _cityItem(cityList.elementAt(index), index);
         },
       ),
     );
   }
-  Widget _cityItem(LocationModel people, int index) {
+  Widget _cityItem(LocationModel city, int index) {
     return Container(
       margin: const EdgeInsets.all(8),
         width: 150,
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<SelectCity> {
               height: 50,
               child: Column(
                 children: [
-                  Text(people.city, style: const TextStyle(color: Colors.white),),
+                  Text(city.city, style: const TextStyle(color: Colors.white),),
                 ],
               ),
             ),
