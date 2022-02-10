@@ -5,7 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
 
 const CameraPosition _kInitialPosition =
-    CameraPosition(target: LatLng(37.3826,-6.0066), zoom: 15.0);
+    CameraPosition(target: LatLng(37.3826,-6.0066),
+     zoom: 15.0);
+     
+
 
 
 class MapClickPage extends GoogleMapExampleAppPage {
@@ -30,6 +33,8 @@ class _MapClickBodyState extends State<_MapClickBody> {
   GoogleMapController? mapController;
   LatLng? _lastTap;
   LatLng? _lastLongPress;
+
+  
 
   @override
   Widget build(BuildContext context) {
