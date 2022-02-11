@@ -68,7 +68,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
 
     final List<Widget> columnChildren = <Widget>[
       Padding(
-        padding: const EdgeInsets.only(top: 239.0, bottom: 40.0),
+        padding: const EdgeInsets.only(top: 100.0, bottom: 40.0),
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -76,20 +76,32 @@ class _MapClickBodyState extends State<_MapClickBody> {
             child: googleMap,
           ),
         ),
-      ),
-      const SearchBarWidget()
+      )
     ];
-    return SingleChildScrollView(
-      child: Column(
+    return  Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Column(
             children: columnChildren,
-          )
+          ),Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    child: Container(
+                      color: Colors.white,
+                      child: const Padding(
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        child: Text('Selecciona una ciudad en el mapa'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
         ],
-      ),
-    );
+      );
   }
 
   void onMapCreated(GoogleMapController controller) async {
