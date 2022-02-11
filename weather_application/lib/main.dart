@@ -40,9 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       initialRoute: '/inicio',
       routes: {
         '/': (context) => const Home(),
-        '/place_selected': (context) => const PlaceSelected(
-              title: '',
-            ),
+        '/place_selected': (context) => const PlaceSelected( title: '',),
         '/mars': (context) => const Mars(),
         '/inicio': (context) => const PaginaInicio(),
       },
