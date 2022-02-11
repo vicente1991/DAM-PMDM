@@ -5,7 +5,7 @@ import 'package:weather_application/models/page.dart';
 import 'package:weather_application/pages/search.dart';
 
 CameraPosition _kInitialPosition =
-    const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 15.0);
+    const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 8.0);
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -39,9 +39,10 @@ class _MapClickBodyState extends State<_MapClickBody> {
       double? lat = prefs.getDouble('lat');
       double? lng = prefs.getDouble('lng');
       _lastTap = LatLng(lat!, lng!);
+      _kInitialPosition= CameraPosition(target: LatLng(prefs.getDouble('lat')!,prefs.getDouble('lng')!), zoom: 8.0);
     } else {
       _kInitialPosition =
-          const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 5.0);
+          const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 8.0);
       return _lastTap = const LatLng(37.3826, -6.0066);
     }
   }
@@ -100,4 +101,6 @@ class _MapClickBodyState extends State<_MapClickBody> {
   Marker _createMarker() {
     return Marker(markerId: const MarkerId("marker"), position: _lastTap);
   }
+
+  
 }

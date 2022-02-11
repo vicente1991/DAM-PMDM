@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weather_application/pages/home_page.dart';
-import 'package:weather_application/pages/mapa_inicio.dart';
 import 'package:weather_application/pages/pagina_inicio.dart';
 import 'package:weather_application/pages/place_select.dart';
 import 'pages/mars_page.dart';

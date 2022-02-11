@@ -45,7 +45,7 @@ class _PaginaInicioState extends State<PaginaInicio> {
                   ),
                 ),
               ),
-              MapClickPageInicio()
+              const MapClickPageInicio()
             ],
           ),
         ),
