@@ -4,8 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_application/models/page.dart';
 import 'package:weather_application/pages/search.dart';
 
+<<<<<<< HEAD
+const CameraPosition _kInitialPosition =
+    CameraPosition(target: LatLng(37.3826,-6.0066),
+     zoom: 15.0);
+     
+
+
+=======
 CameraPosition _kInitialPosition =
     const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 11.0);
+>>>>>>> c3e28f5f81ea55da3387b25bfeff9f6e7fa66fe0
 
 class MapClickPage extends GoogleMapExampleAppPage {
   const MapClickPage() : super(const Icon(Icons.mouse), 'Map click');
@@ -45,6 +54,8 @@ class _MapClickBodyState extends State<_MapClickBody> {
       return _lastTap = const LatLng(37.3826, -6.0066);
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
