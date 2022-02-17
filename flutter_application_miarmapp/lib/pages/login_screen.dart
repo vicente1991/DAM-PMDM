@@ -37,10 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: DropdownButton<String>(
                       dropdownColor: Colors.white70,
                       value: dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 10,
-                      style: TextStyle(color: Colors.black54),
+                      style: const TextStyle(color: Colors.black54),
                       underline: Container(),
                       onChanged: (String? newvalue) {
                         setState(() {
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           value: value,
                           child: Text(
                             value,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                         );
                       }).toList(),
@@ -61,14 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.facebook),
-                    SizedBox(
-                      height: deviseWidth * .05,
-                    ),
+                  Image.asset('assets/images/logo_miarmapp.png',
+                  height: deviseWidth * .20,
+                  ),
                     Container(
                       width: deviseWidth * .90,
                       height: deviseWidth * .14,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xffE8E8E8),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
@@ -90,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: deviseWidth * .040,
                             ),
-                            decoration: InputDecoration.collapsed(
+                            decoration: const InputDecoration.collapsed(
                               hintText: 'Phone number , email or username',
                             ),
                           ),
@@ -103,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       width: deviseWidth * .90,
                       height: deviseWidth * .14,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xffE8E8E8),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
@@ -126,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: deviseWidth * .040,
                             ),
-                            decoration: InputDecoration.collapsed(
+                            decoration: const InputDecoration.collapsed(
                               hintText: 'Password',
                             ),
                           ),
@@ -174,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         : Container(
                             width: deviseWidth * .90,
                             height: deviseWidth * .14,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Color(0xff78C9FF),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
@@ -182,6 +181,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Center(
                               child: Text(
                                 'Log In',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: deviseWidth * .040,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                      height: deviseWidth * .035,
+                    ),
+                          Container(
+                            width: deviseWidth * .90,
+                            height: deviseWidth * .14,
+                            decoration: const BoxDecoration(
+                              color: Color(0xff78C9FF),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Register',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: deviseWidth * .040,
@@ -204,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: deviseWidth * .40,
                           color: Color(0xffA2A2A2),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -213,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: deviseWidth * .040,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -230,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.facebook),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(
