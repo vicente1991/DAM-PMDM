@@ -136,60 +136,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: deviseWidth * .04,
                     ),
-                    inputTextNotNull
-                        ? GestureDetector(
-                            onLongPressStart: (s) {
-                              setState(() {
-                                buttonColor = 0xff78C9FF;
-                              });
-                            },
-                            onLongPressEnd: (s) {
-                              setState(() {
-                                buttonColor = 0xff26A9FF;
-                              });
-                            },
-                            onTap: () {
-                              print('Log In');
-                            },
-                            child: Container(
-                              width: deviseWidth * .90,
-                              height: deviseWidth * .14,
-                              decoration: BoxDecoration(
-                                color: Color(buttonColor),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Log In',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: deviseWidth * .040,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            width: deviseWidth * .90,
-                            height: deviseWidth * .14,
-                            decoration: BoxDecoration(
-                              color: Color(0xff78C9FF),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Log In',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: deviseWidth * .040,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                    Container(
+                      width: deviseWidth * .90,
+                      height: deviseWidth * .14,
+                      decoration: BoxDecoration(
+                        color: Color(0xff78C9FF),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      child: Center(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/menu');
+                          },
+                          child: Text(
+                            'Log In',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: deviseWidth * .040,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: deviseWidth * .04,
                     ),
@@ -201,12 +170,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Center(
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: deviseWidth * .040,
-                            fontWeight: FontWeight.bold,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/register');
+                          },
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: deviseWidth * .040,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
