@@ -39,7 +39,9 @@ class _MapClickBodyState extends State<_MapClickBody> {
       double? lat = prefs.getDouble('lat');
       double? lng = prefs.getDouble('lng');
       _lastTap = LatLng(lat!, lng!);
-      _kInitialPosition= CameraPosition(target: LatLng(prefs.getDouble('lat')!,prefs.getDouble('lng')!), zoom: 8.0);
+      _kInitialPosition = CameraPosition(
+          target: LatLng(prefs.getDouble('lat')!, prefs.getDouble('lng')!),
+          zoom: 8.0);
     } else {
       _kInitialPosition =
           const CameraPosition(target: LatLng(37.3826, -6.0066), zoom: 8.0);
@@ -68,7 +70,7 @@ class _MapClickBodyState extends State<_MapClickBody> {
 
     final List<Widget> columnChildren = <Widget>[
       Padding(
-        padding: const EdgeInsets.only(top: 239.0, bottom: 40.0),
+        padding: const EdgeInsets.only(top: 59.0, bottom: 40.0),
         child: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -79,15 +81,21 @@ class _MapClickBodyState extends State<_MapClickBody> {
       ),
       const SearchBarWidget()
     ];
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Column(
-            children: columnChildren,
-          )
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(children: [
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Column(
+                  children: columnChildren,
+                )
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }
@@ -101,6 +109,4 @@ class _MapClickBodyState extends State<_MapClickBody> {
   Marker _createMarker() {
     return Marker(markerId: const MarkerId("marker"), position: _lastTap);
   }
-
-  
 }
