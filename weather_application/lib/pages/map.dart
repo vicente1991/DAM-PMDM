@@ -78,26 +78,32 @@ class _MapClickBodyState extends State<_MapClickBody> {
             child: googleMap,
           ),
         ),
-      ),
-      const SearchBarWidget()
+      )
     ];
-    return Scaffold(
-      body: Center(
-        child: Column(children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
-                  children: columnChildren,
-                )
-              ],
-            ),
-          ),
-        ]),
-      ),
-    );
+    return  Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            children: columnChildren,
+          ),Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    child: Container(
+                      color: Colors.white,
+                      child: const Padding(
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        child: Text('Selecciona una ciudad en el mapa'),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+        ],
+      );
   }
 
   void onMapCreated(GoogleMapController controller) async {
