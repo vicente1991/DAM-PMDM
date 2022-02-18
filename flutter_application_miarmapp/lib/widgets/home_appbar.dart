@@ -8,7 +8,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Expanded(
+        const Expanded(
           flex: 1,
           child:Icon(Icons.social_distance),
         ),
@@ -16,12 +16,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             flex: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Padding(
+              children: const [
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.add_box_outlined),
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.send),
                 )

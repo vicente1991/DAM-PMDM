@@ -136,24 +136,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: deviseWidth * .04,
                     ),
-                    Container(
-                      width: deviseWidth * .90,
-                      height: deviseWidth * .14,
-                      decoration: BoxDecoration(
-                        color: Color(0xff78C9FF),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/menu');
-                          },
-                          child: Text(
-                            'Log In',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: deviseWidth * .040,
-                              fontWeight: FontWeight.bold,
+                    InkWell(
+                      child: Container(
+                        width: deviseWidth * .90,
+                        height: deviseWidth * .14,
+                        child: Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(200, 200)),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/menu');
+                            },
+                            child: Text(
+                              'Log In',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: deviseWidth * .040,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -162,24 +162,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: deviseWidth * .04,
                     ),
-                    Container(
-                      width: deviseWidth * .90,
-                      height: deviseWidth * .14,
-                      decoration: BoxDecoration(
-                        color: Color(0xff78C9FF),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/register');
-                          },
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: deviseWidth * .040,
-                              fontWeight: FontWeight.bold,
+                    InkWell(
+                      child: Container(
+                        width: deviseWidth * .90,
+                        height: deviseWidth * .14,
+                        child: Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(200, 200)),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/register');
+                            },
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: deviseWidth * .040,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

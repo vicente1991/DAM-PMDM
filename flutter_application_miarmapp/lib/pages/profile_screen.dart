@@ -81,14 +81,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             builder: (context) =>
                                                 const FollowPage()));*/
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "1.174",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "followers",
                                 ),
                               ],

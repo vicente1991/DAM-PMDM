@@ -27,8 +27,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Widget _buildBottomBar() {
     return Container(
-        decoration: BoxDecoration(
-            border: const Border(
+        decoration: const BoxDecoration(
+            border: Border(
           top: BorderSide(
             color: Color(0xfff1f1f1),
             width: 1.0,
