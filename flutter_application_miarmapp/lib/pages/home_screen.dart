@@ -206,9 +206,9 @@ Widget post(String image, name) {
           trailing: const Icon(Icons.more_vert),
         ),
         InstaLikeButton(
-          image: AssetImage('assets/images/avatar.jpeg'),
+          image: const AssetImage('assets/images/avatar.jpeg'),
           onChanged: () {},
-          icon: Icons.favorite_border,
+          icon: Icons.favorite,
           iconSize: 80,
           iconColor: Colors.red,
           curve: Curves.fastLinearToSlowEaseIn,
@@ -220,7 +220,11 @@ Widget post(String image, name) {
             children: <Widget>[
               Row(
                 children: const <Widget>[
-                  Icon(Icons.favorite_border, size: 31),
+                  Icon(
+                    Icons.favorite_border,
+                    size: 31,
+                    color: Colors.black,
+                  ),
                   SizedBox(
                     width: 12,
                   ),
