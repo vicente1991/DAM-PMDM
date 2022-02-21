@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_miarmapp/widgets/home_appbar.dart';
+import 'package:insta_like_button/insta_like_button.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({ Key? key }) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -10,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -24,8 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        title:  Image.asset(
-          'assets/images/logo_miarmapp.png', scale: 0.7,
+        title: Image.asset(
+          'assets/images/logo_miarmapp.png',
+          scale: 0.7,
         ),
         actions: <Widget>[
           IconButton(
@@ -144,7 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
           post('assets/images/avatar.jpeg', "Miguel Campos"),
           post('assets/images/avatar.jpeg', "Miguel Campos"),
           post('assets/images/avatar.jpeg', "Miguel Campos")
-          
         ],
       ),
     );
@@ -204,10 +205,13 @@ Widget post(String image, name) {
           ),
           trailing: const Icon(Icons.more_vert),
         ),
-        Image.asset(
-          image,
-          fit: BoxFit.cover,
-          width: double.infinity,
+        InstaLikeButton(
+          image: AssetImage('assets/images/avatar.jpeg'),
+          onChanged: () {},
+          icon: Icons.favorite_border,
+          iconSize: 80,
+          iconColor: Colors.red,
+          curve: Curves.fastLinearToSlowEaseIn,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

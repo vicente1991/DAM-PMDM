@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black))),
-                                Text("following"),
+                                const Text("following"),
                               ],
                             ),
                           ],

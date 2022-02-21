@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: DropdownButton<String>(
                       dropdownColor: Colors.white70,
                       value: dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 10,
                       style: TextStyle(color: Colors.black54),
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           value: value,
                           child: Text(
                             value,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                         );
                       }).toList(),
@@ -68,12 +68,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       width: deviseWidth * .90,
                       height: deviseWidth * .14,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xffE8E8E8),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Center(
                           child: TextField(
                             onChanged: (text) {
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: deviseWidth * .040,
                             ),
-                            decoration: InputDecoration.collapsed(
+                            decoration: const InputDecoration.collapsed(
                               hintText: 'Phone number , email or username',
                             ),
                           ),
@@ -103,12 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Container(
                       width: deviseWidth * .90,
                       height: deviseWidth * .14,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xffE8E8E8),
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Center(
                           child: TextField(
                             onChanged: (text) {
@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: deviseWidth * .040,
                             ),
-                            decoration: InputDecoration.collapsed(
+                            decoration: const InputDecoration.collapsed(
                               hintText: 'Password',
                             ),
                           ),
