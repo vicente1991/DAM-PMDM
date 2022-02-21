@@ -38,6 +38,7 @@ class _PostScreenState extends State<PostScreen> {
                )
               ),
             ),
+            buildActions(),
           ],
         ),
         onDoubleTap: (){
