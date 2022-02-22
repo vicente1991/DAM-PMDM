@@ -7,10 +7,10 @@ import 'package:flutter_application_miarmapp/repository/post_repository/post_rep
 part 'post_event.dart';
 part 'post_state.dart';
 
-class MoviesBloc extends Bloc<PostEvent, PostState> {
+class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepository postRepository;
 
-  MoviesBloc(this.postRepository) : super(PostInitial()) {
+  PostBloc(this.postRepository) : super(PostInitial()) {
     on<FetchPostWithType>(_moviesFetched);
   }
 
