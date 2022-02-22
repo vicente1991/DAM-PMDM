@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 24,
                       elevation: 10,
-                      style: TextStyle(color: Colors.black54),
+                      style: const TextStyle(color: Colors.black54),
                       underline: Container(),
                       onChanged: (String? newvalue) {
                         setState(() {
@@ -143,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(200, 200)),
+                                fixedSize: const Size(200, 200)),
                             onPressed: () {
                               Navigator.pushNamed(context, '/menu');
                             },
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                fixedSize: Size(200, 200)),
+                                fixedSize: const Size(200, 200)),
                             onPressed: () {
                               Navigator.pushNamed(context, '/register');
                             },
@@ -197,9 +197,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           height: 1,
                           width: deviseWidth * .40,
-                          color: Color(0xffA2A2A2),
+                          color: const Color(0xffA2A2A2),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -208,13 +208,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: deviseWidth * .040,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
                           height: 1,
                           width: deviseWidth * .40,
-                          color: Color(0xffA2A2A2),
+                          color: const Color(0xffA2A2A2),
                         ),
                       ],
                     ),
@@ -224,14 +224,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.facebook),
-                        SizedBox(
+                        const Icon(Icons.facebook),
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(
                           'Login with facebook',
                           style: TextStyle(
-                            color: Color(0xff1877f2),
+                            color: const Color(0xff1877f2),
                             fontSize: deviseWidth * .040,
                             fontWeight: FontWeight.w800,
                           ),
