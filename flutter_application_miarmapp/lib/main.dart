@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_miarmapp/pages/login_screen.dart';
-import 'package:flutter_application_miarmapp/pages/menu_screen.dart';
-import 'package:flutter_application_miarmapp/pages/post_screen.dart';
-import 'package:flutter_application_miarmapp/pages/register_screen.dart';
+import 'package:flutter_application_miarmapp/ui/pages/menu_screen.dart';
+import 'package:flutter_application_miarmapp/ui/widgets/post_widget.dart';
+import 'package:flutter_application_miarmapp/ui/pages/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,11 +18,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
-  routes: {
-    '/': (context) => const PostScreen(),
-    '/menu': (context) => const MenuScreen(),
-    '/register': (context) => const RegisterScreen(),
-  },
+      routes: {
+        '/': (context) => PostWidget(),
+        '/menu': (context) => const MenuScreen(),
+        '/register': (context) => const RegisterScreen(),
+      },
     );
   }
 }
