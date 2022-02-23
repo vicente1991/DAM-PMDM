@@ -15,8 +15,8 @@ class PostResponse {
   late final String fechaPublicacion;
   late final String visibilidad;
   late final User user;
-  
-  PostResponse.fromJson(Map<String, dynamic> json){
+
+  PostResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     titulo = json['titulo'];
     texto = json['texto'];
@@ -48,7 +48,7 @@ class User {
     required this.fechaNacimiento,
     required this.email,
     required this.avatar,
-    required this.visibilidad,
+    required this.visibilidadUsuario,
   });
   late final String id;
   late final String nombre;
@@ -57,9 +57,9 @@ class User {
   late final String fechaNacimiento;
   late final String email;
   late final String avatar;
-  late final String visibilidad;
-  
-  User.fromJson(Map<String, dynamic> json){
+  late final String visibilidadUsuario;
+
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nombre = json['nombre'];
     apellidos = json['apellidos'];
@@ -67,7 +67,7 @@ class User {
     fechaNacimiento = json['fechaNacimiento'];
     email = json['email'];
     avatar = json['avatar'];
-    visibilidad = json['visibilidad'];
+    visibilidadUsuario = json['visibilidadUsuario'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,7 +79,7 @@ class User {
     _data['fechaNacimiento'] = fechaNacimiento;
     _data['email'] = email;
     _data['avatar'] = avatar;
-    _data['visibilidad'] = visibilidad;
+    _data['visibilidadUsuario'] = visibilidadUsuario;
     return _data;
   }
 }

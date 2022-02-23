@@ -19,7 +19,12 @@ class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: aaa()
+    );
+  }
+
+Widget aaa(){
+  return Column(
         children: [
           GestureDetector(
             child: Stack(alignment: Alignment.center, children: [
@@ -69,7 +74,7 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           )
         ],
-      ),
-    );
-  }
+      );
+}
+
 }

@@ -6,7 +6,9 @@ import 'package:flutter_application_miarmapp/repository/constants.dart';
 import 'package:flutter_application_miarmapp/repository/post_repository/post_repository.dart';
 import 'package:flutter_application_miarmapp/repository/post_repository/post_respository_impl.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/error_page.dart';
+import 'package:flutter_application_miarmapp/ui/widgets/heart_animation_widget.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/home_appbar.dart';
+import 'package:flutter_application_miarmapp/ui/widgets/post_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:insta_like_button/insta_like_button.dart';
@@ -19,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isLiked = false;
+  bool isHeartAnimating = false;
   late PostRepository publicacionRepository;
 
   @override
@@ -47,49 +51,103 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-Widget _createPublics(BuildContext context) {
-  return BlocBuilder<PostBloc, PostState>(
-    builder: (context, state) {
-      if (state is PostInitial) {
-        return const Center(child: CircularProgressIndicator());
-      } else if (state is PostFetchError) {
-        return ErrorPage(
-          message: state.message,
-          retry: () {
-            context
-                .watch<PostBloc>()
-                .add(FetchPostWithType(Constant.nowPlaying));
+  Widget postMejorado(BuildContext context, PostResponse data) {
+    return Container(
+        child: Column(
+      children: [
+        GestureDetector(
+          child: Stack(alignment: Alignment.center, children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: Image.network(
+                  data.file.replaceFirst('localhost', '10.0.2.2')),
+            ),
+            Opacity(
+              opacity: isHeartAnimating ? 1 : 0,
+              child: HeartAnimationWidget(
+                  isAnimating: isHeartAnimating,
+                  duration: const Duration(milliseconds: 700),
+                  child: const Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                    size: 100,
+                  ),
+                  onEnd: () {
+                    setState(() {
+                      isHeartAnimating = false;
+                    });
+                  }),
+            ),
+            
+          ]),
+          
+          onDoubleTap: () {
+            setState(() {
+              isHeartAnimating = true;
+              isLiked = true;
+            });
           },
-        );
-      } else if (state is PostFetched) {
-        return _createPopularView(context, state.public);
-      } else {
-        return const Text('Not support');
-      }
-    },
-  );
-}
+        ),
+        Row(
+          children: [
+            HeartAnimationWidget(
+                alwaysAnimate: true,
+                child: IconButton(
+                    onPressed: () => setState(() => isLiked = !isLiked),
+                    icon: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_outline,
+                      color: isLiked ? Colors.red : Colors.grey,
+                      size: 28,
+                    )),
+                isAnimating: isLiked)
+          ],
+        )
+      ],
+    ));
+  }
 
-Widget _createPopularView(BuildContext context, List<PostResponse> post) {
-  final contentHeight = 4.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
-  return SizedBox(
-    height: MediaQuery.of(context).size.height,
-    child: ListView.separated(
-      itemBuilder: (BuildContext context, int index) {
-        return _post(context, post[index]);
+  Widget _createPublics(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        if (state is PostInitial) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is PostFetchError) {
+          return ErrorPage(
+            message: state.message,
+            retry: () {
+              context
+                  .watch<PostBloc>()
+                  .add(FetchPostWithType(Constant.nowPlaying));
+            },
+          );
+        } else if (state is PostFetched) {
+          return _createPopularView(context, state.public);
+        } else {
+          return const Text('Not support');
+        }
       },
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-      scrollDirection: Axis.vertical,
-      separatorBuilder: (context, index) => const VerticalDivider(
-        color: Colors.transparent,
-        width: 6.0,
+    );
+  }
+
+  Widget _createPopularView(BuildContext context, List<PostResponse> post) {
+    final contentHeight = 4.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          return postMejorado(context, post[index]);
+        },
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        scrollDirection: Axis.vertical,
+        separatorBuilder: (context, index) => const VerticalDivider(
+          color: Colors.transparent,
+          width: 6.0,
+        ),
+        itemCount: post.length,
       ),
-      itemCount: post.length,
-    ),
-  );
-}
+    );
+  }
 
 /*Widget _createPopularViewItem(BuildContext context, PublicacionData movie) {
     final width = MediaQuery.of(context).size.width / 2.6;
@@ -123,97 +181,99 @@ Widget _createPopularView(BuildContext context, List<PostResponse> post) {
     );
   }*/
 
-Widget _post(BuildContext context, PostResponse data) {
-  return Container(
-    decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey.withOpacity(.3)))),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
+  Widget _post(BuildContext context, PostResponse data) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.grey.withOpacity(.3)))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    imageUrl:
+                        data.user.avatar.replaceAll("localhost", "10.0.2.2"),
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
                   ),
-                  imageUrl:
-                      data.user.avatar.replaceAll("localhost", "10.0.2.2"),
-                  width: 30,
-                  height: 30,
-                  fit: BoxFit.cover,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  data.user.nombre + ' ' + data.user.apellidos,
-                  style: TextStyle(
-                      color: Colors.black.withOpacity(.8),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 21),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    data.user.nombre + ' ' + data.user.apellidos,
+                    style: TextStyle(
+                        color: Colors.black.withOpacity(.8),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 21),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 50.0),
-          child: Text(
-            "Nick usuario: " + data.user.nick,
-            style: TextStyle(
-                color: Colors.black.withOpacity(.8),
-                fontWeight: FontWeight.w400,
-                fontSize: 14),
+          Padding(
+            padding: const EdgeInsets.only(left: 50.0),
+            child: Text(
+              "Nick usuario: " + data.user.nick,
+              style: TextStyle(
+                  color: Colors.black.withOpacity(.8),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14),
+            ),
           ),
-        ),
-        InstaLikeButton(
-          image: NetworkImage(
-              data.file.toString().replaceFirst('localhost', '10.0.2.2')),
-          onChanged: () {},
-          icon: Icons.favorite,
-          iconSize: 80,
-          iconColor: Colors.red,
-          curve: Curves.fastLinearToSlowEaseIn,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: const <Widget>[
-                  Icon(
-                    Icons.favorite_border,
-                    size: 31,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Icon(Icons.comment_sharp, size: 31),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Icon(Icons.send, size: 31),
-                ],
-              ),
-              const Icon(Icons.bookmark_border, size: 31)
-            ],
+          InstaLikeButton(
+            image: NetworkImage(
+                data.file.toString().replaceFirst('localhost', '10.0.2.2')),
+            onChanged: () {},
+            icon: Icons.favorite,
+            iconSize: 80,
+            iconColor: Colors.red,
+            curve: Curves.fastLinearToSlowEaseIn,
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-          child: Text(
-            'liked by you and 299 others',
-            style: TextStyle(fontSize: 16, color: Colors.black.withOpacity(.8)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: const <Widget>[
+                    Icon(
+                      Icons.favorite_border,
+                      size: 31,
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.comment_sharp, size: 31),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Icon(Icons.send, size: 31),
+                  ],
+                ),
+                const Icon(Icons.bookmark_border, size: 31)
+              ],
+            ),
           ),
-        )
-      ],
-    ),
-  );
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            child: Text(
+              'liked by you and 299 others',
+              style:
+                  TextStyle(fontSize: 16, color: Colors.black.withOpacity(.8)),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
