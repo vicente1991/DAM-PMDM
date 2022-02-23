@@ -1,5 +1,3 @@
-
-   
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_miarmapp/bloc/movies_bloc/post_bloc.dart';
@@ -12,7 +10,6 @@ import 'package:flutter_application_miarmapp/ui/widgets/home_appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:insta_like_button/insta_like_button.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -40,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {return PostBloc(publicacionRepository)..add(FetchPostWithType(Constant.nowPlaying));},
+      create: (context) {
+        return PostBloc(publicacionRepository)
+          ..add(FetchPostWithType(Constant.nowPlaying));
+      },
       child: Scaffold(
         appBar: const HomeAppBar(),
         body: _createPublics(context),
@@ -72,24 +72,23 @@ Widget _createPublics(BuildContext context) {
   );
 }
 
-Widget _createPopularView(BuildContext context, List<PostResponse> movies) {
+Widget _createPopularView(BuildContext context, List<PostResponse> post) {
   final contentHeight = 4.0 * (MediaQuery.of(context).size.width / 2.4) / 3;
   return SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return _post(context, movies[index]);
-            },
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-            scrollDirection: Axis.vertical,
-            separatorBuilder: (context, index) => const VerticalDivider(
-              color: Colors.transparent,
-              width: 6.0,
-            ),
-            itemCount: movies.length,
-          ),
-        );
-
+    height: MediaQuery.of(context).size.height,
+    child: ListView.separated(
+      itemBuilder: (BuildContext context, int index) {
+        return _post(context, post[index]);
+      },
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      scrollDirection: Axis.vertical,
+      separatorBuilder: (context, index) => const VerticalDivider(
+        color: Colors.transparent,
+        width: 6.0,
+      ),
+      itemCount: post.length,
+    ),
+  );
 }
 
 /*Widget _createPopularViewItem(BuildContext context, PublicacionData movie) {
@@ -124,39 +123,57 @@ Widget _createPopularView(BuildContext context, List<PostResponse> movies) {
     );
   }*/
 
-  Widget _post (BuildContext context, PostResponse data){
-    return Container(
+Widget _post(BuildContext context, PostResponse data) {
+  return Container(
     decoration: BoxDecoration(
         color: Colors.white,
         border: Border(top: BorderSide(color: Colors.grey.withOpacity(.3)))),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        ListTile(
-          leading:  ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: CachedNetworkImage(
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  imageUrl:
+                      data.user.avatar.replaceAll("localhost", "10.0.2.2"),
+                  width: 30,
+                  height: 30,
+                  fit: BoxFit.cover,
                 ),
-                imageUrl: data.user.avatar.replaceAll(
-                    "http://localhost:8080", "http://10.0.2.2:8080"),
-                width: 30,
-                height: 30,
-                fit: BoxFit.cover,
               ),
-            ),
-          title: Text(
-            data.user.nick,
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  data.user.nombre + ' ' + data.user.apellidos,
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(.8),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 21),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 50.0),
+          child: Text(
+            "Nick usuario: " + data.user.nick,
             style: TextStyle(
                 color: Colors.black.withOpacity(.8),
                 fontWeight: FontWeight.w400,
-                fontSize: 21),
+                fontSize: 14),
           ),
-          trailing: const Icon(Icons.more_vert),
         ),
         InstaLikeButton(
-          image:  NetworkImage(data.file.toString().replaceFirst('localhost', '10.0.2.2')),
+          image: NetworkImage(
+              data.file.toString().replaceFirst('localhost', '10.0.2.2')),
           onChanged: () {},
           icon: Icons.favorite,
           iconSize: 80,
@@ -199,6 +216,4 @@ Widget _createPopularView(BuildContext context, List<PostResponse> movies) {
       ],
     ),
   );
-  }
-
-
+}
