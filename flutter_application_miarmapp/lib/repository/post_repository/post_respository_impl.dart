@@ -15,7 +15,7 @@ class PostRepositoryImpl extends PostRepository {
     final response = await _client
         .get(Uri.parse('http://10.0.2.2:8080/post/public'), headers: {
       'Authorization':
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjMGE4MzgwMS03ZjIyLTFjNjItODE3Zi0yMjRjZTM1NzAwMDAiLCJpYXQiOjE2NDU2MzQzNjIsIm5vbWJyZSI6Ikx1aXMgTWlndWVsIn0.1f978zxfU64LFn1mMUVMKJsUXn23oGckLMJUKymhF0Q',
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYzFiNDYwZC03ZjI2LTEwNDQtODE3Zi0yNjMwODczMTAwMDAiLCJpYXQiOjE2NDU2OTk1OTIsIm5vbWJyZSI6IlZpY2VudGUifQ.sG6t2NECtUL_rjGF8Sijy78E4WMbz_UyEmjys52s8IA',
     });
     if (response.statusCode == 200) {
       return (json.decode(response.body) as List)
