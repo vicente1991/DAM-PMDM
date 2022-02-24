@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_miarmapp/bloc/login_bloc/login_bloc.dart';
+import 'package:flutter_application_miarmapp/models/login/login_dto.dart';
+import 'package:flutter_application_miarmapp/models/login/login_response.dart';
+import 'package:flutter_application_miarmapp/repository/auth_repository/auth_repository.dart';
+import 'package:flutter_application_miarmapp/repository/auth_repository/auth_repository_Imp.dart';
+import 'package:flutter_application_miarmapp/ui/pages/menu_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -8,243 +16,235 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String dropdownValue = 'English';
-
-  TextEditingController usernameController = TextEditingController();
+  late AuthRepository authRepository;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late Future<SharedPreferences> _prefs;
 
-  int buttonColor = 0xff26A9FF;
-
-  bool inputTextNotNull = false;
+  @override
+  void initState() {
+    authRepository = AuthRepositoryImpl();
+    _prefs = SharedPreferences.getInstance();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    double deviseWidth = MediaQuery.of(context).size.width;
+    return BlocProvider(
+        create: (context) {
+          return LoginBloc(authRepository);
+        },
+        child: _createBody(context));
+  }
 
+  _createBody(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height - 90,
-            ),
+      body: Center(
+        child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(20),
+            child: BlocConsumer<LoginBloc, LoginState>(
+                listenWhen: (context, state) {
+              return state is LoginSuccessState || state is LoginErrorState;
+            }, listener: (context, state) async {
+              if (state is LoginSuccessState) {
+                _loginSuccess(context, state.loginResponse);
+              } else if (state is LoginErrorState) {
+                _showSnackbar(context, state.message);
+              }
+            }, buildWhen: (context, state) {
+              return state is LoginInitial || state is LoginLoadingState;
+            }, builder: (ctx, state) {
+              if (state is LoginInitial) {
+                return _login(ctx);
+              } else if (state is LoginLoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return _login(ctx);
+              }
+            })),
+      ),
+    );
+  }
+
+  Future<void> _loginSuccess(BuildContext context, LoginResponse late) async {
+    _prefs.then((SharedPreferences prefs) {
+      prefs.setString('token', late.token);
+      prefs.setString('id', late.id);
+      prefs.setString('avatar', late.avatar);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const MenuScreen()),
+      );
+    });
+  }
+
+  void _showSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  _login(BuildContext context) {
+    return SafeArea(
+        child: Padding(
+      padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Login to your\naccount',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 48,
+          ),
+          Form(
+            key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.topCenter,
-                    child: DropdownButton<String>(
-                      dropdownColor: Colors.white70,
-                      value: dropdownValue,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 10,
-                      style: const TextStyle(color: Colors.black54),
-                      underline: Container(),
-                      onChanged: (String? newvalue) {
-                        setState(() {
-                          dropdownValue = newvalue!;
-                        });
-                      },
-                      items: <String>['English', 'Spanish', 'Italian', 'French']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        );
-                      }).toList(),
-                    )),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo_miarmapp.png',
-                      height: deviseWidth * .20,
-                    ),
-                    Container(
-                      width: deviseWidth * .90,
-                      height: deviseWidth * .14,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffE8E8E8),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                  decoration: BoxDecoration(
+                    color: Color(0xfff1f1f5),
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  child: TextFormField(
+                    validator: (String? value) {
+                      return (value == null || !value.contains('@'))
+                          ? 'Do not use the @ char.'
+                          : null;
+                    },
+                    onSaved: (String? value) {
+                      // This optional block of code can be used to run
+                      // code when the user saves the form.
+                    },
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'Email',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Center(
-                          child: TextField(
-                            onChanged: (text) {
-                              setState(() {
-                                if (usernameController.text.length >= 2 &&
-                                    passwordController.text.length >= 2) {
-                                  inputTextNotNull = true;
-                                } else {
-                                  inputTextNotNull = false;
-                                }
-                              });
-                            },
-                            controller: usernameController,
-                            style: TextStyle(
-                              fontSize: deviseWidth * .040,
-                            ),
-                            decoration: const InputDecoration.collapsed(
-                              hintText: 'Phone number , email or username',
-                            ),
-                          ),
-                        ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                    SizedBox(
-                      height: deviseWidth * .04,
-                    ),
-                    Container(
-                      width: deviseWidth * .90,
-                      height: deviseWidth * .14,
-                      decoration: const BoxDecoration(
-                        color: Color(0xffE8E8E8),
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Center(
-                          child: TextField(
-                            onChanged: (text) {
-                              setState(() {
-                                if (usernameController.text.length >= 2 &&
-                                    passwordController.text.length >= 2) {
-                                  inputTextNotNull = true;
-                                } else {
-                                  inputTextNotNull = false;
-                                }
-                              });
-                            },
-                            controller: passwordController,
-                            obscureText: true,
-                            style: TextStyle(
-                              fontSize: deviseWidth * .040,
-                            ),
-                            decoration: const InputDecoration.collapsed(
-                              hintText: 'Password',
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: deviseWidth * .04,
-                    ),
-                    InkWell(
-                      child: Container(
-                        width: deviseWidth * .90,
-                        height: deviseWidth * .14,
-                        child: Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(200, 200)),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/menu');
-                            },
-                            child: Text(
-                              'Log In',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: deviseWidth * .040,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: deviseWidth * .04,
-                    ),
-                    InkWell(
-                      child: Container(
-                        width: deviseWidth * .90,
-                        height: deviseWidth * .14,
-                        child: Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(200, 200)),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/register');
-                            },
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: deviseWidth * .040,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: deviseWidth * .035,
-                    ),
-                    SizedBox(
-                      height: deviseWidth * .040,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 1,
-                          width: deviseWidth * .40,
-                          color: const Color(0xffA2A2A2),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'OR',
-                          style: TextStyle(
-                            fontSize: deviseWidth * .040,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: 1,
-                          width: deviseWidth * .40,
-                          color: const Color(0xffA2A2A2),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: deviseWidth * .06,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.facebook),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'Login with facebook',
-                          style: TextStyle(
-                            color: const Color(0xff1877f2),
-                            fontSize: deviseWidth * .040,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
+                SizedBox(
+                  height: 32,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xfff1f1f5),
+                    borderRadius: BorderRadius.circular(14.0),
+                  ),
+                  child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: 'Password',
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      onSaved: (String? value) {
+                        // This optional block of code can be used to run
+                        // code when the user saves the form.
+                      },
+                      validator: (value) {
+                        return (value == null || value.isEmpty)
+                            ? 'Write a password'
+                            : null;
+                      }),
+                )
               ],
             ),
           ),
-        ),
+          SizedBox(
+            height: 32,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 12,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 32,
+          ),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(240, 50), primary: Colors.blue),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  final loginDto = LoginDto(
+                      email: emailController.text,
+                      password: passwordController.text);
+                  BlocProvider.of<LoginBloc>(context)
+                      .add(DoLoginEvent(loginDto));
+                }
+              },
+              child: const Text('Login'),
+            ),
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Don't have an account? ",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: Text(
+                  'Register',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
