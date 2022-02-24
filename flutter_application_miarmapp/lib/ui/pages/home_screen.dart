@@ -53,58 +53,64 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget postMejorado(BuildContext context, PostResponse data) {
-    return Container(
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Column(
-      children: [
-        GestureDetector(
-          child: Stack(alignment: Alignment.center, children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: Image.network(
-                  data.file.replaceFirst('localhost', '10.0.2.2')),
-            ),
-            Opacity(
-              opacity: isHeartAnimating ? 1 : 0,
-              child: HeartAnimationWidget(
-                  isAnimating: isHeartAnimating,
-                  duration: const Duration(milliseconds: 700),
-                  child: const Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                    size: 100,
-                  ),
-                  onEnd: () {
-                    setState(() {
-                      isHeartAnimating = false;
-                    });
-                  }),
-            ),
-            
-          ]),
-          
-          onDoubleTap: () {
-            setState(() {
-              isHeartAnimating = true;
-              isLiked = true;
-            });
-          },
-        ),
-        Row(
           children: [
-            HeartAnimationWidget(
-                alwaysAnimate: true,
-                child: IconButton(
-                    onPressed: () => setState(() => isLiked = !isLiked),
-                    icon: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_outline,
-                      color: isLiked ? Colors.red : Colors.grey,
-                      size: 28,
-                    )),
-                isAnimating: isLiked)
+            GestureDetector(
+              child: Stack(alignment: Alignment.center, children: [
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.network(
+                      data.file.replaceFirst('localhost', '10.0.2.2')),
+                ),
+                Opacity(
+                  opacity: isHeartAnimating ? 1 : 0,
+                  child: HeartAnimationWidget(
+                      isAnimating: isHeartAnimating,
+                      duration: const Duration(milliseconds: 700),
+                      child: const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: 100,
+                      ),
+                      onEnd: () {
+                        setState(() {
+                          isHeartAnimating = false;
+                        });
+                      }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 300),
+                  child: Row(
+                    children: [
+                      HeartAnimationWidget(
+                          alwaysAnimate: true,
+                          child: IconButton(
+                              onPressed: () =>
+                                  setState(() => isLiked = !isLiked),
+                              icon: Icon(
+                                isLiked
+                                    ? Icons.favorite
+                                    : Icons.favorite_outline,
+                                color: isLiked ? Colors.red : Colors.grey,
+                                size: 28,
+                              )),
+                          isAnimating: isLiked)
+                    ],
+                  ),
+                )
+              ]),
+              onDoubleTap: () {
+                setState(() {
+                  isHeartAnimating = true;
+                  isLiked = true;
+                });
+              },
+            ),
           ],
-        )
-      ],
-    ));
+        ));
   }
 
   Widget _createPublics(BuildContext context) {
@@ -136,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: MediaQuery.of(context).size.height,
       child: ListView.separated(
         itemBuilder: (BuildContext context, int index) {
-          return postMejorado(context, post[index]);
+          return _post(context, post[index]);
         },
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         scrollDirection: Axis.vertical,
@@ -217,16 +223,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 50.0),
-            child: Text(
-              "Nick usuario: " + data.user.nick,
-              style: TextStyle(
-                  color: Colors.black.withOpacity(.8),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14),
             ),
           ),
           InstaLikeButton(
