@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Text(
                 'Login to your\naccount',
                 style: TextStyle(
@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 48,
           ),
           Form(
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Center(
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: const Text('Login'),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           SizedBox(
