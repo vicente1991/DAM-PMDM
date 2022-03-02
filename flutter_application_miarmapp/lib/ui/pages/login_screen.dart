@@ -93,72 +93,50 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
         child: Padding(
       padding: EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Login to your\naccount',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 48,
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xfff1f1f5),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  child: TextFormField(
-                    validator: (String? value) {
-                      return (value == null || !value.contains('@'))
-                          ? 'Do not use the @ char.'
-                          : null;
-                    },
-                    onSaved: (String? value) {
-                      // This optional block of code can be used to run
-                      // code when the user saves the form.
-                    },
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Logueate en MiarmApp',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: 20,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xfff1f1f5),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  child: TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
+              ],
+            ),
+            const SizedBox(
+              height: 48,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xfff1f1f5),
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    child: TextFormField(
+                      validator: (String? value) {
+                        return (value == null || !value.contains('@'))
+                            ? 'Do not use the @ char.'
+                            : null;
+                      },
+                      onSaved: (String? value) {
+                        // This optional block of code can be used to run
+                        // code when the user saves the form.
+                      },
+                      controller: emailController,
                       decoration: const InputDecoration(
-                        hintText: 'Password',
+                        hintText: 'Email',
                         hintStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -167,83 +145,112 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      onSaved: (String? value) {
-                        // This optional block of code can be used to run
-                        // code when the user saves the form.
-                      },
-                      validator: (value) {
-                        return (value == null || value.isEmpty)
-                            ? 'Write a password'
-                            : null;
-                      }),
-                )
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xfff1f1f5),
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
+                    child: TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onSaved: (String? value) {
+                          // This optional block of code can be used to run
+                          // code when the user saves the form.
+                        },
+                        validator: (value) {
+                          return (value == null || value.isEmpty)
+                              ? 'Write a password'
+                              : null;
+                        }),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 32,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 12,
+                ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 32,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 12,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 32,
-          ),
-          Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(240, 50), primary: Colors.blue),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  final loginDto = LoginDto(
-                      email: emailController.text,
-                      password: passwordController.text);
-                  BlocProvider.of<LoginBloc>(context)
-                      .add(DoLoginEvent(loginDto));
-                }
-              },
-              child: const Text('Login'),
+            const SizedBox(
+              height: 32,
             ),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          SizedBox(
-            height: 24,
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Don't have an account? ",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/register');
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(240, 50), primary: Colors.blue),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final loginDto = LoginDto(
+                        email: emailController.text,
+                        password: passwordController.text);
+                    BlocProvider.of<LoginBloc>(context)
+                        .add(DoLoginEvent(loginDto));
+                  }
                 },
-                child: Text(
-                  'Register',
+                child: const Text('Login'),
+              ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Don't have an account? ",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: const <TextSpan>[
+                          TextSpan(
+                              text: 'Register',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.blueAccent)),
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          ],
+        ),
       ),
     ));
   }

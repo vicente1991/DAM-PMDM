@@ -47,6 +47,7 @@ dependencies:
   bloc: ^8.0.2
   flutter_bloc: ^8.0.1
   file_picker: ^4.5.0
+  validate: ^1.7.0
   
 
 dev_dependencies:
