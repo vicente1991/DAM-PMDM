@@ -33,22 +33,38 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<RegisterResponse> register(
       RegisterDto registerDto, String imagePath) async {
-    /*final response = await _client.post(
-        Uri.parse('http://10.0.2.2:8080/auth/register/user'),
-        headers: headers,
-        body: jsonEncode(registerDto.toJson()));*/
+    Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      // 'Authorization': 'Bearer $token'
+    };
 
-    var request = http.MultipartRequest(
-        'POST', Uri.parse('http://10.0.2.2:8080/auth/register/user'))
-      ..fields['user'] = jsonEncode(registerDto.toJson())..headers
-      ..files.add(await http.MultipartFile.fromPath('file', imagePath));
-    final response = await request.send();
+    Map<String, String> headers2 = {
+      'Content-Type': 'application/json',
+      // 'Authorization': 'Bearer $token'
+    };
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var uri = Uri.parse('http://10.0.2.2:8080/auth/register');
+                    var request = http.MultipartRequest('POST', uri);
+                    request.fields['nombre'] = prefs.getString('nombre').toString();
+                    request.fields['apellidos'] = prefs.getString('apellidos').toString();
+                    request.fields['nick'] = prefs.getString('nick').toString();
+                    request.fields['email'] = prefs.getString('email').toString();
+                    request.fields['fechaNacimiento'] = prefs.getString('fechaNacimiento').toString();
+                    request.fields['rol'] = prefs.getString('rol').toString();
+                    request.fields['password'] = prefs.getString('password').toString();
+                    request.fields['password2'] = prefs.getString('password2').toString();
+                    request.files.add(await http.MultipartFile.fromPath('file', prefs.getString('file').toString()));
+
+                      
+                    var response = await request.send();
+                    if (response.statusCode == 201) print('Uploaded!');
 
     if (response.statusCode == 201) {
       return RegisterResponse.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {
-      throw Exception('Failed to register');
+      print(response.statusCode);
+      throw Exception(prefs.getString('nombre'));
     }
   }
 }

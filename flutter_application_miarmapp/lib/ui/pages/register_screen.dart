@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_miarmapp/bloc/image_pick_bloc/image_pick_bloc_bloc.dart';
 import 'package:flutter_application_miarmapp/bloc/register_bloc/register_bloc_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -37,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController nick = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController fechaNacimiento = TextEditingController();
-  TextEditingController rol = TextEditingController();
+  TextEditingController visibilidadUsuario = TextEditingController();
   TextEditingController password2 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   late Future<SharedPreferences> _prefs;
@@ -225,31 +227,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                        width: 310,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff1f1f5),
-                          borderRadius: BorderRadius.circular(14.0),
-                        ),
-                        child: TextButton(
-                          onPressed: () {
-                            _selectDate(context);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text("Fecha de Nacimiento",
-                                  style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600)),
-                              Icon(
-                                Icons.calendar_today_outlined,
-                              ),
-                            ],
+                          width: 310,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Color(0xfff1f1f5),
+                            borderRadius: BorderRadius.circular(14.0),
+                          ),
+                          child: DateTimeFormField(
+                            
+                            initialDate: DateTime(2001, 9, 7),
+                            firstDate: DateTime.utc(1900),
+                            lastDate: DateTime.now(),
+                            decoration: const InputDecoration(
+                              hintStyle: TextStyle(color: Colors.black45),
+                              errorStyle: TextStyle(color: Colors.redAccent),
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.event_note),
+                              labelText: 'Fecha Nacimiento',
+                            ),
+                            mode: DateTimeFieldPickerMode.date,
+                            autovalidateMode: AutovalidateMode.always,
+                            
+                            validator: (e) => (e?.day ?? 0) == 1
+                                ? 'Please not the first day'
+                                : null,
+                            onDateSelected: (DateTime value) {
+                              selectedDate = value;
+                              print(value);
+                            },
                           ),
                         ),
-                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -348,32 +355,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               ElevatedButton(
                                   onPressed: () async {
-                                    // TODO el evento que debeis crear en el BLoC para
-                                    // poder subir la imagen que tenemos guardada en
-                                    // state.pickedFile.path
-
-                                    var res = await uploadImage(
-                                        state.pickedFile.path, uploadUrl);
-                                    print(state.pickedFile.path);
-
-                                    /*var request = http.MultipartRequest(
-                                        "POST",
-                                        Uri.parse(
-                                            'http://10.0.2.2:8080/auth/register'));
-                                    var picture = http.MultipartFile.fromBytes(
-                                        'file',
-                                        (await rootBundle
-                                                .load(state.pickedFile.path))
-                                            .buffer
-                                            .asUint8List(),
-                                        filename: state.pickedFile.toString());
-                                    request.files.add(picture);
-                                    var response = await request.send();
-                                    var responseData =
-                                        await response.stream.toBytes();
-                                    var result =
-                                        String.fromCharCodes(responseData);
-                                    print(result);*/
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setString('file', path);
                                   },
                                   child: const Text('Upload Image'))
                             ]);
@@ -406,12 +390,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(240, 50), primary: Colors.blue),
                   onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     if (_formKey.currentState!.validate()) {
                       final loginDto = RegisterDto(
                           nombre: nombre.text,
                           apellidos: apellidos.text,
                           nick: nick.text,
-                          fechaNacimiento: '2001-04-08',
+                          fechaNacimiento: DateFormat("yyyy-MM-dd").format(selectedDate),
                           rol: true,
                           email: emailController.text,
                           password2: password2.text,
@@ -420,20 +406,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       BlocProvider.of<RegisterBlocBloc>(context)
                           .add(DoRegisterEvent(loginDto, path));
                     }
-
-                    /*var uri = Uri.parse('http://10.0.2.2:8080/auth/register');
-                    var request = http.MultipartRequest('POST', uri);
-                    request.fields['user[nombre]'] = nombre.text;
-                    request.fields['user[apellidos]'] = apellidos.text;
-                    request.fields['user[nick]'] = nick.text;
-                    request.fields['user[email]'] = emailController.text;
-                    request.fields['user[fechaNacimiento]'] = selectedDate.toString();
-                    request.fields['user[rol]'] = true.toString();
-                    request.fields['user[password]'] = passwordController.text;
-                    request.fields['user[password2]'] = password2.text;
-                      
-                    var response = await request.send();
-                    if (response.statusCode == 201) print('Uploaded!');*/
+                    prefs.setString('nombre', nombre.text);
+                    prefs.setString('apellidos', apellidos.text);
+                    prefs.setString('nick', nick.text);
+                    prefs.setString('email', emailController.text);
+                    prefs.setString('fechaNacimiento', DateFormat("yyyy-MM-dd").format(selectedDate));
+                    prefs.setString('rol', nombre.text);
+                    prefs.setString('password', passwordController.text);
+                    prefs.setString('password2', password2.text);
 
                     Navigator.pushNamed(context, '/');
                   },
@@ -479,103 +459,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+/*
   Future<String?> uploadImage(filepath, url) async {
     var request = http.MultipartRequest('POST', Uri.parse(url));
     request.files.add(await http.MultipartFile.fromPath('file', filepath));
     var res = await request.send();
     return res.reasonPhrase;
-  }
+  }*/
 
-  Future<DateTime?> showDatePicker({
-    required BuildContext context,
-    required DateTime initialDate,
-    required DateTime firstDate,
-    required DateTime lastDate,
-    DateTime? currentDate,
-    DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
-    SelectableDayPredicate? selectableDayPredicate,
-    String? helpText,
-    String? cancelText,
-    String? confirmText,
-    Locale? locale,
-    bool useRootNavigator = true,
-    RouteSettings? routeSettings,
-    TextDirection? textDirection,
-    TransitionBuilder? builder,
-    DatePickerMode initialDatePickerMode = DatePickerMode.day,
-    String? errorFormatText,
-    String? errorInvalidText,
-    String? fieldHintText,
-    String? fieldLabelText,
-  }) async {
-    Widget dialog = DatePickerDialog(
-      initialDate: initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-      currentDate: currentDate,
-      initialEntryMode: initialEntryMode,
-      selectableDayPredicate: selectableDayPredicate,
-      helpText: helpText,
-      cancelText: cancelText,
-      confirmText: confirmText,
-      initialCalendarMode: initialDatePickerMode,
-      errorFormatText: errorFormatText,
-      errorInvalidText: errorInvalidText,
-      fieldHintText: fieldHintText,
-      fieldLabelText: fieldLabelText,
-    );
-
-    if (textDirection != null) {
-      dialog = Directionality(
-        textDirection: textDirection,
-        child: dialog,
-      );
-    }
-
-    if (locale != null) {
-      dialog = Localizations.override(
-        context: context,
-        locale: locale,
-        child: dialog,
-      );
-    }
-
-    return showDialog<DateTime>(
-      context: context,
-      useRootNavigator: useRootNavigator,
-      routeSettings: routeSettings,
-      builder: (BuildContext context) {
-        return builder == null ? dialog : builder(context, dialog);
-      },
-    );
-  }
-
-  _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: selectedDate,
-    );
-
-    if (selected != null && selected != selectedDate)
-      setState(() {
-        selectedDate = selected;
-      });
-  }
-
-  pickFiles(String filetype) async {
-    if (filetype == "Image") {
-      imageSelect = "Imagen Seleccionada";
-      result = await FilePicker.platform.pickFiles(type: FileType.image);
-
-      imageSelect = result!.files.first.name;
-    }
-
-    if (filetype == "Video") {
-      result = await FilePicker.platform.pickFiles(type: FileType.video);
-
-      file = result!.files.first;
-    }
-  }
+  
 }
