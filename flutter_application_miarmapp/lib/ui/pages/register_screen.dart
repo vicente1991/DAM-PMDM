@@ -8,6 +8,7 @@ import 'package:flutter_application_miarmapp/models/register/register_dto.dart';
 import 'package:flutter_application_miarmapp/models/register/register_response.dart';
 import 'package:flutter_application_miarmapp/repository/auth_repository/auth_repository.dart';
 import 'package:flutter_application_miarmapp/repository/auth_repository/auth_repository_Imp.dart';
+import 'package:flutter_application_miarmapp/ui/pages/login_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/menu_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -45,12 +46,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late Future<SharedPreferences> _prefs;
   final String uploadUrl = 'http://10.0.2.2:8080/auth/register';
   String path = "";
+  bool _passwordVisible = false;
+  bool _password2Visible = false;
+  bool isPublic = true;
 
   @override
   void initState() {
     authRepository = AuthRepositoryImpl();
     _prefs = SharedPreferences.getInstance();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -116,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MenuScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     });
   }
@@ -224,39 +227,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
+                    Checkbox(
+                        value: isPublic,
+                        onChanged: (value) {
+                          setState(() {
+                            isPublic = value!;
+                          });
+                        }),
+                    const Text("Quieres que tu perfil sea público?"),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                          width: 310,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: Color(0xfff1f1f5),
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: DateTimeFormField(
-                            
-                            initialDate: DateTime(2001, 9, 7),
-                            firstDate: DateTime.utc(1900),
-                            lastDate: DateTime.now(),
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.black45),
-                              errorStyle: TextStyle(color: Colors.redAccent),
-                              border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.event_note),
-                              labelText: 'Fecha Nacimiento',
-                            ),
-                            mode: DateTimeFieldPickerMode.date,
-                            autovalidateMode: AutovalidateMode.always,
-                            
-                            validator: (e) => (e?.day ?? 0) == 1
-                                ? 'Please not the first day'
-                                : null,
-                            onDateSelected: (DateTime value) {
-                              selectedDate = value;
-                              print(value);
-                            },
-                          ),
+                        width: 310,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Color(0xfff1f1f5),
+                          borderRadius: BorderRadius.circular(14.0),
                         ),
+                        child: DateTimeFormField(
+                          initialDate: DateTime(2001, 9, 7),
+                          firstDate: DateTime.utc(1900),
+                          lastDate: DateTime.now(),
+                          decoration: const InputDecoration(
+                            hintStyle: TextStyle(color: Colors.black45),
+                            errorStyle: TextStyle(color: Colors.redAccent),
+                            border: OutlineInputBorder(),
+                            suffixIcon: Icon(Icons.event_note),
+                            labelText: 'Fecha Nacimiento',
+                          ),
+                          mode: DateTimeFieldPickerMode.date,
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (e) => (e?.day ?? 0) == 1
+                              ? 'Please not the first day'
+                              : null,
+                          onDateSelected: (DateTime value) {
+                            selectedDate = value;
+                            print(value);
+                          },
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -397,7 +406,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           nombre: nombre.text,
                           apellidos: apellidos.text,
                           nick: nick.text,
-                          fechaNacimiento: DateFormat("yyyy-MM-dd").format(selectedDate),
+                          fechaNacimiento:
+                              DateFormat("yyyy-MM-dd").format(selectedDate),
                           rol: true,
                           email: emailController.text,
                           password2: password2.text,
@@ -410,12 +420,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefs.setString('apellidos', apellidos.text);
                     prefs.setString('nick', nick.text);
                     prefs.setString('email', emailController.text);
-                    prefs.setString('fechaNacimiento', DateFormat("yyyy-MM-dd").format(selectedDate));
+                    prefs.setString('fechaNacimiento',
+                        DateFormat("yyyy-MM-dd").format(selectedDate));
                     prefs.setString('rol', true.toString());
                     prefs.setString('password', passwordController.text);
                     prefs.setString('password2', password2.text);
-
-                    Navigator.pushNamed(context, '/');
                   },
                   child: const Text('Register'),
                 ),
@@ -467,5 +476,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return res.reasonPhrase;
   }*/
 
-  
 }

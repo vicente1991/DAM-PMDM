@@ -40,6 +40,7 @@ class _PostScreenState extends State<PostScreen> {
   String path = "";
   bool _passwordVisible = false;
   bool _password2Visible = false;
+  bool isPublic = true;
 
   @override
   void initState() {
@@ -47,7 +48,6 @@ class _PostScreenState extends State<PostScreen> {
     _prefs = SharedPreferences.getInstance();
     _passwordVisible = false;
     _password2Visible = false;
-    // TODO: implement initState
     super.initState();
   }
 
@@ -195,25 +195,14 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                     Column(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xfff1f1f5),
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            controller: estadoPublicacion,
-                            decoration: const InputDecoration(
-                              hintText: 'Nick',
-                              hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
+                        Checkbox(
+                            value: isPublic,
+                            onChanged: (value) {
+                              setState(() {
+                                isPublic = value!;
+                              });
+                            }),
+                        const Text('Publicacion publica'),
                       ],
                     ),
                     SizedBox(
@@ -266,7 +255,7 @@ class _PostScreenState extends State<PostScreen> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: const [
                   SizedBox(
                     width: 12,
                   ),

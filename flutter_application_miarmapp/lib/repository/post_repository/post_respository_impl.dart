@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_miarmapp/repository/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_miarmapp/models/post/post_dto.dart';
 import 'package:flutter_application_miarmapp/models/post/post_response.dart';
@@ -15,17 +16,15 @@ class PostRepositoryImpl extends PostRepository {
   @override
   Future<List<PostResponse>> fetchPost(String type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final response = await _client
-        .get(Uri.parse('http://10.0.2.2:8080/post/public'), headers: {
-      'Authorization':
-          'Bearer ${prefs.getString('token')}',
-    });
+    final response = await _client.get(Uri.parse('http://10.0.2.2:8080/post/${Constant.nowPlaying}'),
+     headers: {
+       'Authorization':
+            'Bearer ${prefs.getString('token')}'});
     if (response.statusCode == 200) {
-      return (json.decode(response.body) as List)
-          .map((i) => PostResponse.fromJson(i))
-          .toList();
+      return (json.decode(response.body) as List).map((i) =>
+              PostResponse.fromJson(i)).toList();
     } else {
-      throw Exception('Fail to load post');
+      throw Exception('Fail to load movies');
     }
   }
 
