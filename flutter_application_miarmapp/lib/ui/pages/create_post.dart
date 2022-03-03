@@ -195,14 +195,34 @@ class _PostScreenState extends State<PostScreen> {
                     ),
                     Column(
                       children: [
-                        Checkbox(
-                            value: isPublic,
-                            onChanged: (value) {
-                              setState(() {
-                                isPublic = value!;
-                              });
-                            }),
-                        const Text('Publicacion publica'),
+                        Container(
+                          width: 310,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Color(0xfff1f1f5),
+                            borderRadius: BorderRadius.circular(14.0),
+                          ),
+                          child: Column(
+                            children: [
+                              Switch(
+                                value: isPublic,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isPublic = value;
+                                    print(isPublic);
+                                  });
+                                },
+                                activeTrackColor: Colors.lightGreenAccent,
+                                activeColor: Colors.green,
+                                inactiveTrackColor: Colors.red,
+                                inactiveThumbColor: Colors.redAccent,
+                              ),
+                              isPublic == true
+                                  ? Text("Público")
+                                  : Text("Privado"),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(
