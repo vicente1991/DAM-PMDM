@@ -17,6 +17,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -234,29 +235,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           Container(
                             width: 310,
-                            height: 80,
+                            height: 60,
                             decoration: BoxDecoration(
                               color: Color(0xfff1f1f5),
                               borderRadius: BorderRadius.circular(14.0),
                             ),
                             child: Column(
                               children: [
-                                Switch(
-                                  value: isPublic,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isPublic = value;
-                                      print(isPublic);
-                                    });
-                                  },
-                                  activeTrackColor: Colors.lightGreenAccent,
-                                  activeColor: Colors.green,
-                                  inactiveTrackColor: Colors.red,
-                                  inactiveThumbColor: Colors.redAccent,
-                                ),
-                                isPublic == true
-                                    ? Text("Público")
-                                    : Text("Privado"),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: ToggleSwitch(
+                                    cornerRadius: 20.0,
+                                    activeBgColors: [
+                                      [Colors.green[800]!],
+                                      [Colors.red[800]!]
+                                    ],
+                                    activeFgColor: Colors.white,
+                                    inactiveBgColor: Colors.grey,
+                                    inactiveFgColor: Colors.white,
+                                    initialLabelIndex: 0,
+                                    totalSwitches: 2,
+                                    labels: ['Publico', 'Privado'],
+                                    radiusStyle: true,
+                                    onToggle: (index) {
+                                      index == 0
+                                          ? isPublic = true
+                                          : isPublic = false;
+                                      print('switched to: $isPublic');
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           ),
