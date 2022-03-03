@@ -40,6 +40,7 @@ dependencies:
   cached_network_image: ^3.2.0
   shared_preferences: ^2.0.13
   image_picker: ^0.8.4+9
+  date_field: ^2.1.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
