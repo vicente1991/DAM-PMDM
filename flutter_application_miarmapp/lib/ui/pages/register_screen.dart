@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:date_field/date_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_miarmapp/bloc/image_pick_bloc/image_pick_bloc_bloc.dart';
 import 'package:flutter_application_miarmapp/bloc/register_bloc/register_bloc_bloc.dart';
@@ -227,13 +228,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    Checkbox(
-                        value: isPublic,
-                        onChanged: (value) {
-                          setState(() {
-                            isPublic = value!;
-                          });
-                        }),
+                    CupertinoSwitch(
+                      value: isPublic,
+                      onChanged: (value) {
+                        setState(() {
+                          isPublic = value;
+                        });
+                      },
+                    ),
                     const Text("Quieres que tu perfil sea público?"),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -467,13 +469,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-
-/*
-  Future<String?> uploadImage(filepath, url) async {
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.files.add(await http.MultipartFile.fromPath('file', filepath));
-    var res = await request.send();
-    return res.reasonPhrase;
-  }*/
-
 }
