@@ -228,15 +228,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    CupertinoSwitch(
-                      value: isPublic,
-                      onChanged: (value) {
-                        setState(() {
-                          isPublic = value;
-                        });
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 310,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Color(0xfff1f1f5),
+                              borderRadius: BorderRadius.circular(14.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Switch(
+                                  value: isPublic,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isPublic = value;
+                                      print(isPublic);
+                                    });
+                                  },
+                                  activeTrackColor: Colors.lightGreenAccent,
+                                  activeColor: Colors.green,
+                                  inactiveTrackColor: Colors.red,
+                                  inactiveThumbColor: Colors.redAccent,
+                                ),
+                                isPublic == true
+                                    ? Text("Público")
+                                    : Text("Privado"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const Text("Quieres que tu perfil sea público?"),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
@@ -253,7 +279,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: const InputDecoration(
                             hintStyle: TextStyle(color: Colors.black45),
                             errorStyle: TextStyle(color: Colors.redAccent),
-                            border: OutlineInputBorder(),
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide.none),
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Fecha Nacimiento',
                           ),
@@ -304,11 +331,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         child: TextFormField(
                           controller: passwordController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: 'Password',
-                            suffixIcon: Icon(Icons.remove_red_eye_rounded,
-                                color: Colors.black54),
-                            hintStyle: TextStyle(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  _passwordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context).primaryColorDark),
+                              onPressed: () {
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
+                            hintStyle: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
@@ -329,10 +366,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         child: TextFormField(
-                          controller: password2,
-                          decoration: const InputDecoration(
-                            hintText: 'Confirm Password',
-                            hintStyle: TextStyle(
+                          controller: passwordController,
+                          decoration: InputDecoration(
+                            hintText: 'Confirm password',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                  _password2Visible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context).primaryColorDark),
+                              onPressed: () {
+                                setState(() {
+                                  _password2Visible = !_password2Visible;
+                                });
+                              },
+                            ),
+                            hintStyle: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
