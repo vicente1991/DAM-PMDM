@@ -138,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    'Register your account',
+                    'Registrate en MiarmApp',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
