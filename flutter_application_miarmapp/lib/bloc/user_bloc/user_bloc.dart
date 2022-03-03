@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_application_miarmapp/models/post/post_response.dart';
 import 'package:flutter_application_miarmapp/models/user/user_response.dart';
 import 'package:flutter_application_miarmapp/repository/user_repository/user_repository.dart';
 

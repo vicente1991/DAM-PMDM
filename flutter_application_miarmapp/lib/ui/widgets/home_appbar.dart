@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_miarmapp/ui/pages/create_post.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
@@ -10,18 +11,26 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         const Expanded(
           flex: 1,
-          child:Icon(Icons.social_distance),
+          child: Icon(Icons.social_distance),
         ),
         Expanded(
             flex: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
+              children: [
                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.add_box_outlined),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PostScreen()));
+                    },
+                    icon: Icon(Icons.add_box_outlined),
+                  ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.send),
                 )

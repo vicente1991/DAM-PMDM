@@ -15,3 +15,10 @@ class FetchPostWithType extends PostEvent {
   @override
   List<Object> get props => [type];
 }
+
+class DoPublicacionEvent extends  PostEvent{
+  final PostDto postDto;
+  final String imagePath;
+  
+  const DoPublicacionEvent(this.postDto, this.imagePath);
+}

@@ -15,8 +15,8 @@ class PostResponse {
   late final String fechaPublicacion;
   late final String visibilidad;
   late final User user;
-
-  PostResponse.fromJson(Map<String, dynamic> json) {
+  
+  PostResponse.fromJson(Map<String, dynamic> json){
     id = json['id'];
     titulo = json['titulo'];
     texto = json['texto'];
@@ -58,8 +58,8 @@ class User {
   late final String email;
   late final String avatar;
   late final String visibilidadUsuario;
-
-  User.fromJson(Map<String, dynamic> json) {
+  
+  User.fromJson(Map<String, dynamic> json){
     id = json['id'];
     nombre = json['nombre'];
     apellidos = json['apellidos'];

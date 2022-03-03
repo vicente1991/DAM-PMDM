@@ -7,8 +7,20 @@ abstract class PostState extends Equatable {
   List<Object> get props => [];
 }
 
-class PostInitial extends PostState {}
+class BlocPublicacionesInitial extends PostState {}
 
+class PublicacionesLoading extends PostState {}
+
+class PublicacionesSuccessState extends PostState {
+  final PostResponse postResponse;
+
+  const PublicacionesSuccessState(this.postResponse);
+
+  @override
+  List<Object> get props => [postResponse];
+}
+
+class PostInitial extends PostState {}
 
 class PostFetched extends PostState {
   final List<PostResponse> public;

@@ -411,7 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefs.setString('nick', nick.text);
                     prefs.setString('email', emailController.text);
                     prefs.setString('fechaNacimiento', DateFormat("yyyy-MM-dd").format(selectedDate));
-                    prefs.setString('rol', nombre.text);
+                    prefs.setString('rol', true.toString());
                     prefs.setString('password', passwordController.text);
                     prefs.setString('password2', password2.text);
 

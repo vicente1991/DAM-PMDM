@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_miarmapp/ui/pages/login_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/menu_screen.dart';
-import 'package:flutter_application_miarmapp/ui/widgets/post_widget.dart';
 import 'package:flutter_application_miarmapp/ui/pages/register_screen.dart';
 
 void main() {

@@ -38,10 +38,6 @@ class AuthRepositoryImpl extends AuthRepository {
       // 'Authorization': 'Bearer $token'
     };
 
-    Map<String, String> headers2 = {
-      'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer $token'
-    };
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var uri = Uri.parse('http://10.0.2.2:8080/auth/register');
                     var request = http.MultipartRequest('POST', uri);

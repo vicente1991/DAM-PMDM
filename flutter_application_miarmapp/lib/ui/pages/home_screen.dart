@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_miarmapp/bloc/movies_bloc/post_bloc.dart';
+import 'package:flutter_application_miarmapp/bloc/post_bloc/post_bloc.dart';
 import 'package:flutter_application_miarmapp/models/post/post_response.dart';
 import 'package:flutter_application_miarmapp/repository/constants.dart';
 import 'package:flutter_application_miarmapp/repository/post_repository/post_repository.dart';
@@ -154,38 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-/*Widget _createPopularViewItem(BuildContext context, PublicacionData movie) {
-    final width = MediaQuery.of(context).size.width / 2.6;
-    return Container(
-      width: width,
-      height: double.infinity,
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: Card(
-        elevation: 10.0,
-        borderOnForeground: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: SizedBox(
-          width: width,
-          height: double.infinity,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: CachedNetworkImage(
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              imageUrl: movie.file.toString().replaceFirst('localhost', '10.0.2.2'),
-              width: width,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
 
   Widget _post(BuildContext context, PostResponse data) {
     return Container(

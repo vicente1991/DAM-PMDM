@@ -1,15 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_miarmapp/bloc/movies_bloc/post_bloc.dart';
-import 'package:flutter_application_miarmapp/models/post/post_response.dart';
-import 'package:flutter_application_miarmapp/repository/constants.dart';
-import 'package:flutter_application_miarmapp/repository/post_repository/post_repository.dart';
-import 'package:flutter_application_miarmapp/repository/post_repository/post_respository_impl.dart';
 import 'package:flutter_application_miarmapp/ui/pages/home_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/profile_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/search_screen.dart';
-import 'package:flutter_application_miarmapp/ui/widgets/error_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -37,14 +30,14 @@ class _MenuScreenState extends State<MenuScreen> {
 
   Widget _buildBottomBar() {
     return Container(
-        decoration: BoxDecoration(
-            border: const Border(
+        decoration: const BoxDecoration(
+            border: Border(
           top: BorderSide(
             color: Color(0xfff1f1f1),
             width: 1.0,
           ),
         )),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
