@@ -350,15 +350,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         child: TextFormField(
+                          obscureText: !_passwordVisible,
                           controller: passwordController,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             suffixIcon: IconButton(
                               icon: Icon(
-                                  _passwordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Theme.of(context).primaryColorDark),
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _passwordVisible = !_passwordVisible;
@@ -369,7 +371,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                             ),
                           ),
@@ -386,15 +388,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         child: TextFormField(
+                          obscureText: !_password2Visible,
                           controller: password2,
                           decoration: InputDecoration(
-                            hintText: 'Confirm password',
+                            hintText: 'Password',
                             suffixIcon: IconButton(
                               icon: Icon(
-                                  _password2Visible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Theme.of(context).primaryColorDark),
+                                // Based on passwordVisible state choose the icon
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _password2Visible = !_password2Visible;
@@ -454,12 +459,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 32,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: const [
                   SizedBox(
                     width: 12,
                   ),

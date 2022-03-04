@@ -33,34 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {return UserWithPostBloc(userRepository)..add(FetchUserWithType(Constant.nowPlaying));},
-      child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            title: const Text(
-              "Miguel Campos",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.black),
-            ),
-            actions: const [
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(
-                      Icons.menu,
-                      size: 30,
-                      color: Colors.black,
-                    ),
-                  ))
-            ],
-          ),
-          body: _createPublics(context)),
-    );
+        create: (context) {
+          return UserWithPostBloc(userRepository)
+            ..add(FetchUserWithType(Constant.nowPlaying));
+        },
+        child: _createPublics(context));
   }
 }
 
@@ -88,129 +65,152 @@ Widget _createPublics(BuildContext context) {
 }
 
 Widget _profile(BuildContext context, UserData user) {
-  return SafeArea(
-    child: Column(
-      children: [
-        Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 12),
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(user.avatar
-                            .toString()
-                            .replaceFirst('localhost', '10.0.2.2'))),
-                  ),
+  return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          user.nombre + " " + user.apellidos,
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        ),
+        actions: const [
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: IconButton(
+                onPressed: null,
+                icon: Icon(
+                  Icons.menu,
+                  size: 30,
+                  color: Colors.black,
                 ),
-                Column(
+              ))
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Row(
                   children: [
-                    Row(
+                    Container(
+                      margin: const EdgeInsets.only(top: 12),
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(user.avatar
+                                .toString()
+                                .replaceFirst('localhost', '10.0.2.2'))),
+                      ),
+                    ),
+                    Column(
                       children: [
-                        Column(
+                        Row(
                           children: [
-                            TextButton(
-                              onPressed: null,
-                              child: Text(
-                                user.publicaciones.length.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
+                            Column(
+                              children: [
+                                TextButton(
+                                  onPressed: null,
+                                  child: Text(
+                                    user.publicaciones.length.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                Text("posts"),
+                              ],
                             ),
-                            Text("posts"),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                /*Navigator.of(context).push(
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    /*Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const FollowPage()));*/
-                              },
-                              child: Text(
-                                user.followers.length.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
+                                  },
+                                  child: Text(
+                                    user.followers.length.toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                ),
+                                Text(
+                                  "followers",
+                                ),
+                              ],
                             ),
-                            Text(
-                              "followers",
+                            const SizedBox(
+                              width: 5,
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  /*Navigator.of(context).push(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      /*Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   const FollowPage()));*/
-                                },
-                                child: Text("832",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black))),
-                            Text("following"),
+                                    },
+                                    child: Text("832",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black))),
+                                Text("following"),
+                              ],
+                            ),
                           ],
                         ),
                       ],
                     ),
                   ],
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                 ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(user.nick.toString()),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(user.nick.toString()),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    user.nombre + " " + user.apellidos,
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                )
-              ],
-            ),
-            Container(
-                height: 35,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.shade200),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        user.nombre + " " + user.apellidos,
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    )
+                  ],
                 ),
-                width: 320,
-                child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Edit Profile",
-                      style: TextStyle(color: Colors.black),
-                    )))
+                Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    width: 320,
+                    child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Edit Profile",
+                          style: TextStyle(color: Colors.black),
+                        )))
 
-            /* Row(
+                /* Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 120.0),
@@ -225,13 +225,11 @@ Widget _profile(BuildContext context, UserData user) {
                     ),
                   ],
                 ),*/
-          ],
-        ),
-        const Divider(
-          height: 10,
-        ),
-        
-          
+              ],
+            ),
+            const Divider(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -245,7 +243,7 @@ Widget _profile(BuildContext context, UserData user) {
             const SizedBox(
               width: 20,
             ),
-            
+
             /*Image(  image: NetworkImage(user.publicaciones.elementAt(0).file.toString().replaceFirst('localhost', '10.0.2.2')),
                         
                         ),*/
@@ -257,12 +255,15 @@ Widget _profile(BuildContext context, UserData user) {
                   itemCount: user.publicaciones.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
-                      color: Colors.white,
-                      child: Image(
-                            image: NetworkImage(user.publicaciones.elementAt(index).file.toString().replaceFirst('localhost', '10.0.2.2')),
-                            fit: BoxFit.cover,
-                          ));
-                    
+                        color: Colors.white,
+                        child: Image(
+                          image: NetworkImage(user.publicaciones
+                              .elementAt(index)
+                              .file
+                              .toString()
+                              .replaceFirst('localhost', '10.0.2.2')),
+                          fit: BoxFit.cover,
+                        ));
                   }),
             ),
             /*Container(
@@ -276,9 +277,6 @@ Widget _profile(BuildContext context, UserData user) {
               width: 20,
             ),
           ],
-        
-      
-    ),
-    
-  );
+        ),
+      ));
 }
