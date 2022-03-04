@@ -9,6 +9,7 @@ import 'package:flutter_application_miarmapp/ui/pages/profile_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/search_screen.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/error_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:english_words/english_words.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   late UserPostRepository userRepository;
+  final _data = <WordPair>[];
 
   @override
   void initState() {
@@ -41,15 +43,17 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return UserWithPostBloc(userRepository)
-          ..add(FetchUserWithType(Constant.nowPlaying));
-      },
-      child: Scaffold(
-          body: pages[_currentIndex],
-          bottomNavigationBar: _createPublics(context)),
-    );
+    return RefreshIndicator(
+        onRefresh: refreshList,
+        child: BlocProvider(
+          create: (context) {
+            return UserWithPostBloc(userRepository)
+              ..add(FetchUserWithType(Constant.nowPlaying));
+          },
+          child: Scaffold(
+              body: pages[_currentIndex],
+              bottomNavigationBar: _createPublics(context)),
+        ));
   }
 
   Widget _createPublics(BuildContext context) {
@@ -136,5 +140,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 ))
           ],
         ));
+  }
+
+  Future<Null> refreshList() async {
+    await Future.delayed(Duration(seconds: 2));
   }
 }
