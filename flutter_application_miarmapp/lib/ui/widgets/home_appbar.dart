@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_miarmapp/ui/pages/chat_screen.dart';
 import 'package:flutter_application_miarmapp/ui/pages/create_post.dart';
+import 'package:flutter_application_miarmapp/ui/pages/home_screen.dart';
+import 'package:flutter_application_miarmapp/ui/pages/menu_screen.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
@@ -9,30 +12,70 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        const Expanded(
+        Expanded(
           flex: 1,
-          child: Icon(Icons.social_distance),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MenuScreen()));
+                  },
+                  icon: const Icon(
+                    Icons.social_distance,
+                  ),
+                ),
+              ),
+              const Text("Inicio"),
+            ],
+          ),
         ),
         Expanded(
             flex: 1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PostScreen()));
-                    },
-                    icon: Icon(Icons.add_box_outlined),
-                  ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PostScreen()));
+                        },
+                        icon: const Icon(
+                          Icons.add_box_outlined,
+                        ),
+                      ),
+                    ),
+                    Text("Crear post")
+                  ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.send),
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ChatScreen()));
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                        ),
+                      ),
+                    ),
+                    Text("Chat")
+                  ],
                 )
               ],
             ))

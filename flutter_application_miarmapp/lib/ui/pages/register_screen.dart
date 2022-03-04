@@ -235,13 +235,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         children: [
                           Container(
                             width: 310,
-                            height: 60,
+                            height: 80,
                             decoration: BoxDecoration(
                               color: Color(0xfff1f1f5),
                               borderRadius: BorderRadius.circular(14.0),
                             ),
                             child: Column(
                               children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Tipo de perfil: ",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black45),
+                                    ),
+                                  ],
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
                                   child: ToggleSwitch(
@@ -374,7 +386,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(14.0),
                         ),
                         child: TextFormField(
-                          controller: passwordController,
+                          controller: password2,
                           decoration: InputDecoration(
                             hintText: 'Confirm password',
                             suffixIcon: IconButton(
@@ -393,7 +405,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                             ),
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                               borderSide: BorderSide.none,
                             ),
                           ),
