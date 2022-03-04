@@ -47,7 +47,7 @@ Future doAnimation() async{
   if(widget.isAnimating || widget.alwaysAnimate){
     await controller.forward();
     await controller.reverse();
-    await Future.delayed(Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 400));
 
     if(widget.onEnd != null){
       widget.onEnd!();

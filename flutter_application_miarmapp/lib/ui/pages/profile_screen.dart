@@ -118,12 +118,12 @@ Widget _profile(BuildContext context, UserData user) {
                                   onPressed: null,
                                   child: Text(
                                     user.publicaciones.length.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                   ),
                                 ),
-                                Text("posts"),
+                                const Text("posts"),
                               ],
                             ),
                             const SizedBox(
@@ -140,12 +140,12 @@ Widget _profile(BuildContext context, UserData user) {
                                   },
                                   child: Text(
                                     user.followers.length.toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   "followers",
                                 ),
                               ],
@@ -158,16 +158,13 @@ Widget _profile(BuildContext context, UserData user) {
                               children: [
                                 TextButton(
                                     onPressed: () {
-                                      /*Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const FollowPage()));*/
+                                      
                                     },
-                                    child: Text("832",
+                                    child: const Text("832",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.black))),
-                                Text("following"),
+                                const Text("following"),
                               ],
                             ),
                           ],
@@ -210,21 +207,6 @@ Widget _profile(BuildContext context, UserData user) {
                           style: TextStyle(color: Colors.black),
                         )))
 
-                /* Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 120.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.white),
-                        onPressed: () {},
-                        child: const Text(
-                          "Edit Profile",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),*/
               ],
             ),
             const Divider(
@@ -243,10 +225,6 @@ Widget _profile(BuildContext context, UserData user) {
             const SizedBox(
               width: 20,
             ),
-
-            /*Image(  image: NetworkImage(user.publicaciones.elementAt(0).file.toString().replaceFirst('localhost', '10.0.2.2')),
-                        
-                        ),*/
             Flexible(
               child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -266,13 +244,6 @@ Widget _profile(BuildContext context, UserData user) {
                         ));
                   }),
             ),
-            /*Container(
-                width: 120,
-                height: 150,
-                child: Image(
-                  image: AssetImage('assets/images/luismi.png'),
-                  fit: BoxFit.contain,
-                )),*/
             const SizedBox(
               width: 20,
             ),

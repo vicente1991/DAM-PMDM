@@ -22,14 +22,12 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     userRepository = UserPostRepositoryImpl();
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -86,7 +84,7 @@ class _MenuScreenState extends State<MenuScreen> {
             width: 1.0,
           ),
         )),
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -8,7 +8,6 @@ import 'package:flutter_application_miarmapp/repository/post_repository/post_res
 import 'package:flutter_application_miarmapp/ui/widgets/error_page.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/heart_animation_widget.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/home_appbar.dart';
-import 'package:flutter_application_miarmapp/ui/widgets/post_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:insta_like_button/insta_like_button.dart';

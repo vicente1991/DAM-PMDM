@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_miarmapp/models/post/post_response.dart';
 import 'package:flutter_application_miarmapp/ui/widgets/heart_animation_widget.dart';
 
 class PostWidget extends StatefulWidget {
