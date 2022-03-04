@@ -143,7 +143,7 @@ class _PostScreenState extends State<PostScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               Form(
@@ -169,7 +169,7 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     Container(
@@ -191,7 +191,7 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
                     Column(
@@ -200,7 +200,7 @@ class _PostScreenState extends State<PostScreen> {
                           width: 310,
                           height: 80,
                           decoration: BoxDecoration(
-                            color: Color(0xfff1f1f5),
+                            color: const Color(0xfff1f1f5),
                             borderRadius: BorderRadius.circular(14.0),
                           ),
                           child: Column(
@@ -240,7 +240,7 @@ class _PostScreenState extends State<PostScreen> {
                                         inactiveFgColor: Colors.white,
                                         initialLabelIndex: 0,
                                         totalSwitches: 2,
-                                        labels: ['Publico', 'Privada'],
+                                        labels: const ['Publico', 'Privada'],
                                         radiusStyle: true,
                                         onToggle: (index) {
                                           index == 0
