@@ -35,7 +35,6 @@ class AuthRepositoryImpl extends AuthRepository {
       RegisterDto registerDto, String imagePath) async {
     Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
-      // 'Authorization': 'Bearer $token'
     };
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
